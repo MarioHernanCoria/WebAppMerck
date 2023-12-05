@@ -1,0 +1,47 @@
+﻿@model WebAppMerck.Models.FormularioData
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<form method="post" action="/Home/Indicador">
+    <div class="col-12 text-center vh-50" style="background-color: #00ffff; padding: 150px;">
+        <h1 class="display-4">Formulario</h1>
+    </div>
+
+    <div class="text-center">
+        <div class="container mt-5" style="border-bottom: 1px solid #000; padding-bottom: 15px; margin-bottom: 15px;">
+            <div class="row">
+                <div class="col-12">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="col-12">
+                    <p class="h4">Edad actual</p>
+                    <input type="text" id="edadActual" name="edadActual" value="@Model.EdadActual">
+                </div>
+            </div>
+        </div>
+
+        <div class="container mt-3" style="border-bottom: 1px solid #000; padding-bottom: 15px; margin-bottom: 15px;">
+            <div class="row">
+                <div class="col-12">
+                    <i class="fas fa-tint" style="color: red;"></i>
+                </div>
+                <div class="col-12">
+                    <p class="h4">Edad primera menstruacion</p>
+                    <input type="text" id="edadMenstruacion" name="EdadPrimeraMenstruacion" value="@Model.EdadPrimeraMenstruacion">
+                </div>
+            </div>
+        </div>
+
+        <div class="container mt-3">
+            <div class="row">
+                <div class="col-12">
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Siguiente</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
