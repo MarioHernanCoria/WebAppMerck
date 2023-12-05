@@ -23,6 +23,7 @@ namespace WebAppMerck.Controllers
         {
             TempData["EdadActual"] = data.EdadActual;
             TempData["EdadPrimeraMenstruacion"] = data.EdadPrimeraMenstruacion;
+            TempData["NivelFertilidad"] = CalcularNivelFertilidad(data.EdadActual);
             return View();
         }
 
@@ -35,6 +36,25 @@ namespace WebAppMerck.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        private string CalcularNivelFertilidad(int edadActual)
+        {
+            int umbralBaja = 35;
+            int umbralMedio = 28;
+
+            if (edadActual > umbralBaja)
+            {
+                return "Baja";
+            }
+            else if (edadActual <= umbralBaja && edadActual > umbralMedio)
+            {
+                return "Media";
+            }
+            else
+            {
+                return "Alta";
+            }
         }
     }
 }
