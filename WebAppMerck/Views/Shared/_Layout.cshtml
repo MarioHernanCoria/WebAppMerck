@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WebAppMerck.styles.css" asp-append-version="true" />
+    <script src="https://kit.fontawesome.com/87b5288e78.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <header>
@@ -22,9 +23,6 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
                     </ul>
                 </div>
             </div>
@@ -36,16 +34,10 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - WebAppMerck - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="https://kit.fontawesome.com/87b5288e78.js" crossorigin="anonymous"></script>
-    <script type='text/javascript' src=''></script>
+    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key=Ao_UIgIpkl_3BUr1Fh9g5wEmvR0aQ-ygbWRGb8ChFdmAMVLzO2abwxkbfWR0Erf6'></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

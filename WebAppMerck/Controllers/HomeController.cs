@@ -6,37 +6,43 @@ namespace WebAppMerck.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
 
         public IActionResult Index()
         {
-            var modelo = new FormularioData();
-            return View(modelo);
+
+                var modelo = new FormularioData();
+                return View(modelo);
         }
-        
+
+
+        [HttpPost]
+        public IActionResult Index(FormularioData data)
+        {
+            if (ModelState.IsValid) 
+            {
+                return RedirectToAction("Indicador", data);
+            }
+            return View("Index", data);
+
+        }
+
+        [HttpGet]
         public IActionResult Indicador(FormularioData data)
         {
-            TempData["EdadActual"] = data.EdadActual;
-            TempData["EdadPrimeraMenstruacion"] = data.EdadPrimeraMenstruacion;
-            TempData["NivelFertilidad"] = CalcularNivelFertilidad(data.EdadActual);
-            return View();
+           TempData["EdadActual"] = data.EdadActual;
+           TempData["EdadPrimeraMenstruacion"] = data.EdadPrimeraMenstruacion;
+           TempData["NivelFertilidad"] = CalcularNivelFertilidad(data.EdadActual);
+
+            return View(data);
+
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+
+
+
+
+
 
         private string CalcularNivelFertilidad(int edadActual)
         {
