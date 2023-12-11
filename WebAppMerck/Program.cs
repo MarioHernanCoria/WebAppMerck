@@ -1,3 +1,5 @@
+using WebAppMerck.Servicios;
+
 namespace WebAppMerck
 {
     public class Program
@@ -8,6 +10,10 @@ namespace WebAppMerck
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddHttpClient();
+            builder.Services.AddScoped<ClinicasServicio>();
+            builder.Services.AddScoped<CalcularFertilidad>();
 
             var app = builder.Build();
 

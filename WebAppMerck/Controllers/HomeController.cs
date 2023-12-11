@@ -1,15 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 using WebAppMerck.Models;
+using WebAppMerck.Servicios;
 
 namespace WebAppMerck.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly CalcularFertilidad _calcularFertilidad;
+        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly ClinicasServicio _clinicasServicio;
+        private readonly IConfiguration _configuration;
 
+        public HomeController(IHttpClientFactory httpClientFactory, ClinicasServicio clinicasServicio, IConfiguration configuration, CalcularFertilidad calcularFertilidad)
+        {
+            _calcularFertilidad = calcularFertilidad;
+            _httpClientFactory = httpClientFactory;
+            _clinicasServicio = clinicasServicio;
+            _configuration = configuration;
+
+        }
         public IActionResult Index()
         {
-
                 var modelo = new FormularioData();
                 return View(modelo);
         }
@@ -31,36 +42,19 @@ namespace WebAppMerck.Controllers
         {
            TempData["EdadActual"] = data.EdadActual;
            TempData["EdadPrimeraMenstruacion"] = data.EdadPrimeraMenstruacion;
-           TempData["NivelFertilidad"] = CalcularNivelFertilidad(data.EdadActual);
+           TempData["NivelFertilidad"] = _calcularFertilidad.CalcularNivelFertilidad(data.EdadActual);
 
             return View(data);
 
         }
 
-
-
-
-
-
-
-
-        private string CalcularNivelFertilidad(int edadActual)
+        [HttpGet]
+        public async Task<IActionResult> ObtenerClinicasFertilidad()
         {
-            int umbralBaja = 35;
-            int umbralMedio = 28;
-
-            if (edadActual > umbralBaja)
-            {
-                return "Baja";
-            }
-            else if (edadActual <= umbralBaja && edadActual > umbralMedio)
-            {
-                return "Media";
-            }
-            else
-            {
-                return "Alta";
-            }
+            var archivoCsv = "https://raw.githubusercontent.com/MarioHernanCoria/ClinicasCSV/main/Clinicas%20de%20Fertilidad.csv";
+            var clinicas = await _clinicasServicio.ObtenerClinicasCsv(archivoCsv);
+            var clinicasDto = _clinicasServicio.ConvertirClinicas(clinicas);
+            return Json(clinicasDto);
         }
     }
 }
