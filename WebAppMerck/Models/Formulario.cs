@@ -2,7 +2,7 @@
 
 namespace WebAppMerck.Models
 {
-    public class FormularioData
+    public class Formulario
     {
         [Key]
         public int Id { get; set; }

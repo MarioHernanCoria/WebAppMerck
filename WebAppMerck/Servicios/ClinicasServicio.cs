@@ -33,19 +33,19 @@ namespace WebAppMerck.Servicios
             }
         }
 
+
         public List<ClinicasDto> ConvertirClinicas(List<ClinicasDto> clinicas)
-            {
+        {
+           var clinicasDirecciones = clinicas.Select(clinica => new ClinicasDto
+           {
+              Nombre = clinica.Nombre,
+              Direccion = clinica.Direccion,
+              Latitud = clinica.Latitud,
+              Longitud = clinica.Longitud,
 
-                var clinicasDirecciones = clinicas.Select(clinica => new ClinicasDto
-                {
-                    Nombre = clinica.Nombre,
-                    Direccion = clinica.Direccion,
+           }).ToList();
 
-                }).ToList();
-
-                return clinicasDirecciones;
-            }
-
-        
+           return clinicasDirecciones;
+        }  
     }
 }

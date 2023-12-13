@@ -1,35 +1,52 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WebAppMerck.Models;
 using WebAppMerck.Servicios;
+using Microsoft.Extensions.Configuration;
+using WebAppMerck.Models;
+using Microsoft.Extensions.DependencyInjection;
+using WebAppMerck.Servicios.Interfaces;
+using System;
 
 namespace WebAppMerck.Controllers
 {
     public class HomeController : Controller
     {
         private readonly CalcularFertilidad _calcularFertilidad;
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IHttpClientFactory _httpClient;
         private readonly ClinicasServicio _clinicasServicio;
         private readonly IConfiguration _configuration;
 
-        public HomeController(IHttpClientFactory httpClientFactory, ClinicasServicio clinicasServicio, IConfiguration configuration, CalcularFertilidad calcularFertilidad)
+        public HomeController(IHttpClientFactory httpClient, ClinicasServicio clinicasServicio, IConfiguration configuration, CalcularFertilidad calcularFertilidad)
         {
             _calcularFertilidad = calcularFertilidad;
-            _httpClientFactory = httpClientFactory;
+            _httpClient = httpClient;
             _clinicasServicio = clinicasServicio;
             _configuration = configuration;
 
         }
         public IActionResult Index()
         {
-                var modelo = new FormularioData();
-                return View(modelo);
+            var bingMapsApiKey = _configuration["BingMapsCredentials:ApiKey"];
+            ViewData["BingMapsApiKey"] = bingMapsApiKey;
+
+            var modelo = new Formulario();
+            return View(modelo);
+        }
+
+        public IActionResult Consulta()
+        {
+            return View();
+        }
+
+        public IActionResult AgradecimientoConsulta()
+        {
+            return View();
         }
 
 
         [HttpPost]
-        public IActionResult Index(FormularioData data)
+        public IActionResult Index(Formulario data)
         {
-            if (ModelState.IsValid) 
+            if (ModelState.IsValid)
             {
                 return RedirectToAction("Indicador", data);
             }
@@ -38,23 +55,35 @@ namespace WebAppMerck.Controllers
         }
 
         [HttpGet]
-        public IActionResult Indicador(FormularioData data)
+        public IActionResult Indicador(Formulario data)
         {
-           TempData["EdadActual"] = data.EdadActual;
-           TempData["EdadPrimeraMenstruacion"] = data.EdadPrimeraMenstruacion;
-           TempData["NivelFertilidad"] = _calcularFertilidad.CalcularNivelFertilidad(data.EdadActual);
+            TempData["EdadActual"] = data.EdadActual;
+            TempData["EdadPrimeraMenstruacion"] = data.EdadPrimeraMenstruacion;
+            TempData["NivelFertilidad"] = _calcularFertilidad.CalcularNivelFertilidad(data.EdadActual);
+
+            ViewData["EdadActual"] = data.EdadActual;
+            ViewData["NivelFertilidad"] = TempData["NivelFertilidad"];
 
             return View(data);
 
         }
 
         [HttpGet]
-        public async Task<IActionResult> ObtenerClinicasFertilidad()
+        public IActionResult GetBingMapsApiKey()
         {
-            var archivoCsv = "https://raw.githubusercontent.com/MarioHernanCoria/ClinicasCSV/main/Clinicas%20de%20Fertilidad.csv";
+            var apiKey = _configuration["BingMapsCredentials:ApiKey"];
+            return Json(new { apiKey });
+        }
+
+
+        public async Task<IActionResult> ObtenerClinicas()
+        {
+            var archivoCsv = "https://raw.githubusercontent.com/MarioHernanCoria/clinicas/main/clinicasFertilidad.csv";
             var clinicas = await _clinicasServicio.ObtenerClinicasCsv(archivoCsv);
             var clinicasDto = _clinicasServicio.ConvertirClinicas(clinicas);
             return Json(clinicasDto);
         }
+
+        
     }
 }

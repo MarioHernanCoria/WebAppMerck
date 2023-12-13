@@ -1,0 +1,34 @@
+﻿@{
+    ViewData["Title"] = "AgradecimientoConsulta";
+}
+
+<header style="background-color:#EC3B96">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light mb-3>
+        <div class="container-fluid>
+            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div style="background-color: #2EBDCD;">
+    <div class="text-center">
+        <p class="text-white">Muchas gracias por su contacto. La consulta fue enviada</p>
+
+        <div class="row mt-3">
+            <div class="col-md-6 offset-md-3 text-center">
+                <a asp-controller="Home" asp-action="Consulta" class="btn btn-primary">Volver a Consultar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
