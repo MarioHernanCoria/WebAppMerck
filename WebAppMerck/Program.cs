@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SendGrid;
+using System.Configuration;
 using WebAppMerck.DataAccess;
 using WebAppMerck.Models;
 using WebAppMerck.Servicios;
@@ -19,6 +20,8 @@ namespace WebAppMerck
 
             builder.Services.Configure<SendGridSettings>(builder.Configuration.GetSection("SendGridSettings"));
             builder.Services.AddTransient<ISendGridClient>(_ => new SendGridClient(builder.Configuration["SendGridSettings:ApiKey"]));
+
+            builder.Services.Configure<GoogleAnalyticsOptions>(builder.Configuration.GetSection("GoogleAnalytics"));
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();

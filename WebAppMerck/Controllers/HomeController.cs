@@ -7,19 +7,22 @@ using System;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using WebAppMerck.Servicios.Interfaces;
+using Microsoft.Extensions.Options;
 
 namespace WebAppMerck.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly GoogleAnalyticsOptions _googleAnalyticsOptions;
         private readonly IEmailSender _emailSender;
         private readonly CalcularFertilidad _calcularFertilidad;
         private readonly IHttpClientFactory _httpClient;
         private readonly ClinicasServicio _clinicasServicio;
         private readonly IConfiguration _configuration;
 
-        public HomeController(IEmailSender emailSender, IHttpClientFactory httpClient, ClinicasServicio clinicasServicio, IConfiguration configuration, CalcularFertilidad calcularFertilidad)
+        public HomeController(IOptions<GoogleAnalyticsOptions> googleAnalyticsOptions, IEmailSender emailSender, IHttpClientFactory httpClient, ClinicasServicio clinicasServicio, IConfiguration configuration, CalcularFertilidad calcularFertilidad)
         {
+            _googleAnalyticsOptions = googleAnalyticsOptions.Value;
             _emailSender = emailSender;
             _calcularFertilidad = calcularFertilidad;
             _httpClient = httpClient;
@@ -29,6 +32,8 @@ namespace WebAppMerck.Controllers
         }
         public IActionResult Index()
         {
+            ViewData["TrackingId"] = _googleAnalyticsOptions.TrackingId;
+
             var bingMapsApiKey = _configuration["BingMapsCredentials:ApiKey"];
             ViewData["BingMapsApiKey"] = bingMapsApiKey;
 
