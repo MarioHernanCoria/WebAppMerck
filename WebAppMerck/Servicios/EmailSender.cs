@@ -1,50 +1,30 @@
-﻿using Microsoft.Extensions.Options;
-using SendGrid.Helpers.Mail;
+﻿using SendGrid.Helpers.Mail;
 using SendGrid;
-using WebAppMerck.Models;
 using WebAppMerck.Servicios.Interfaces;
 
 namespace WebAppMerck.Servicios
 {
     public class EmailSender : IEmailSender
     {
-        private readonly ILogger _logger;
-
-        public EmailSender(IOptions<AuthMessageSenderOptions> optionsAccessor,
-                           ILogger<EmailSender> logger)
+        private readonly IConfiguration _configuration;
+        public EmailSender(IConfiguration configuration)
         {
-            Options = optionsAccessor.Value;
-            _logger = logger;
+
+            _configuration = configuration; 
+
         }
-
-        public AuthMessageSenderOptions Options { get; } 
-
-        public async Task SendEmailAsync(string toEmail, string subject, string message)
+        public async Task EnviarEmailAsync(string to, string subject, string body, string message)
         {
-            if (string.IsNullOrEmpty(Options.SendGridKey))
-            {
-                throw new Exception("Null SendGridKey");
-            }
-            await Execute(Options.SendGridKey, subject, message, toEmail);
-        }
-
-        public async Task Execute(string apiKey, string subject, string message, string toEmail)
-        {
+            var apiKey = _configuration["SendGridSettings:ApiKeySendGrid"];
             var client = new SendGridClient(apiKey);
-            var msg = new SendGridMessage()
-            {
-                From = new EmailAddress("Joe@contoso.com", "Password Recovery"),
-                Subject = subject,
-                PlainTextContent = message,
-                HtmlContent = message
-            };
-            msg.AddTo(new EmailAddress(toEmail));
 
-            msg.SetClickTracking(false, false);
+            var from = new EmailAddress(_configuration["Email:FromAddress"], _configuration["Email:FromName"]);
+            var toAddress = new EmailAddress(to);
+            var plainTextContent = body;
+            var htmlContent = body;
+
+            var msg = MailHelper.CreateSingleEmail(from, toAddress, subject, plainTextContent, htmlContent);
             var response = await client.SendEmailAsync(msg);
-            _logger.LogInformation(response.IsSuccessStatusCode
-                                   ? $"Email to {toEmail} queued successfully!"
-                                   : $"Failure Email to {toEmail}");
         }
     }
 }

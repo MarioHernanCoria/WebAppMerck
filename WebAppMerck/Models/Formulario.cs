@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebAppMerck.Models
 {
@@ -6,6 +7,20 @@ namespace WebAppMerck.Models
     {
         [Key]
         public int Id { get; set; }
+        public string Nombre { get; set; } = "";
+
+        public string Apellido { get; set; } = "";
+
+        public string Email { get; set; } = "";
+
+        public int Edad { get; set; }
+
+        public string Celular { get; set; } = "";
+
+        public string Clinicas { get; set; } = "";
+
+        public string Consulta { get; set; } = "";
+
         [Required(ErrorMessage = "La edad actual es requerida")]
         [Range(1, int.MaxValue, ErrorMessage = "La edad actual debe ser un número mayor que cero.")]
         public int EdadActual { get; set; }

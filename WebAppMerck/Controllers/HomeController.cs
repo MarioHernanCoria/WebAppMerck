@@ -3,20 +3,24 @@ using WebAppMerck.Servicios;
 using Microsoft.Extensions.Configuration;
 using WebAppMerck.Models;
 using Microsoft.Extensions.DependencyInjection;
-using WebAppMerck.Servicios.Interfaces;
 using System;
+using SendGrid;
+using SendGrid.Helpers.Mail;
+using WebAppMerck.Servicios.Interfaces;
 
 namespace WebAppMerck.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IEmailSender _emailSender;
         private readonly CalcularFertilidad _calcularFertilidad;
         private readonly IHttpClientFactory _httpClient;
         private readonly ClinicasServicio _clinicasServicio;
         private readonly IConfiguration _configuration;
 
-        public HomeController(IHttpClientFactory httpClient, ClinicasServicio clinicasServicio, IConfiguration configuration, CalcularFertilidad calcularFertilidad)
+        public HomeController(IEmailSender emailSender, IHttpClientFactory httpClient, ClinicasServicio clinicasServicio, IConfiguration configuration, CalcularFertilidad calcularFertilidad)
         {
+            _emailSender = emailSender;
             _calcularFertilidad = calcularFertilidad;
             _httpClient = httpClient;
             _clinicasServicio = clinicasServicio;
@@ -32,27 +36,14 @@ namespace WebAppMerck.Controllers
             return View(modelo);
         }
 
-        public IActionResult Consulta()
+
+        [HttpGet]
+        public IActionResult GetBingMapsApiKey()
         {
-            return View();
+            var apiKey = _configuration["BingMapsCredentials:ApiKey"];
+            return Json(new { apiKey });
         }
 
-        public IActionResult AgradecimientoConsulta()
-        {
-            return View();
-        }
-
-
-        [HttpPost]
-        public IActionResult Index(Formulario data)
-        {
-            if (ModelState.IsValid)
-            {
-                return RedirectToAction("Indicador", data);
-            }
-            return View("Index", data);
-
-        }
 
         [HttpGet]
         public IActionResult Indicador(Formulario data)
@@ -65,15 +56,31 @@ namespace WebAppMerck.Controllers
             ViewData["NivelFertilidad"] = TempData["NivelFertilidad"];
 
             return View(data);
-
         }
 
-        [HttpGet]
-        public IActionResult GetBingMapsApiKey()
+        [HttpPost]
+        public IActionResult Index(Formulario data)
         {
-            var apiKey = _configuration["BingMapsCredentials:ApiKey"];
-            return Json(new { apiKey });
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("Indicador", data);
+            }
+            return View("Index", data);
+
         }
+
+        public IActionResult Consulta()
+        {
+            var modelo = new FormularioViewModel();
+            return View(modelo);
+        }
+
+        public IActionResult AgradecimientoConsulta()
+        {
+
+            return View();
+        }
+
 
 
         public async Task<IActionResult> ObtenerClinicas()
@@ -84,6 +91,26 @@ namespace WebAppMerck.Controllers
             return Json(clinicasDto);
         }
 
-        
+        [HttpPost]
+        public async Task<IActionResult> EnviarConsulta(FormularioViewModel formularioViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var apiKey = _configuration["SendGridSettings:ApiKeySendGrid"];
+                var senderEmail = _configuration["SendGridSettings:SenderEmail"];
+                var subject = "Nueva consulta";
+
+                // Utiliza el correo de la clínica seleccionada en lugar del destinatario estático
+                var recipientEmail = formularioViewModel.EmailClinica;
+
+                var message = $"Nueva consulta de {formularioViewModel.Nombre} {formularioViewModel.Apellido}. Mensaje: {formularioViewModel.Consulta}";
+
+                await _emailSender.EnviarEmailAsync(senderEmail, recipientEmail, subject, message);
+
+                return RedirectToAction("AgradecimientoConsulta");
+            }
+
+            return View("Consulta", formularioViewModel);
+        }
     }
 }

@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using System.Configuration;
+using SendGrid;
 using WebAppMerck.DataAccess;
 using WebAppMerck.Models;
 using WebAppMerck.Servicios;
@@ -17,6 +17,9 @@ namespace WebAppMerck
             var bingMapsConfig = builder.Configuration.GetSection("BingMapsCredentials");
             var bingMapsKey = bingMapsConfig["ApiKey"];
 
+            builder.Services.Configure<SendGridSettings>(builder.Configuration.GetSection("SendGridSettings"));
+            builder.Services.AddTransient<ISendGridClient>(_ => new SendGridClient(builder.Configuration["SendGridSettings:ApiKey"]));
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
@@ -30,7 +33,6 @@ namespace WebAppMerck
             builder.Services.AddScoped<ClinicasServicio>();
             builder.Services.AddScoped<CalcularFertilidad>();
             builder.Services.AddTransient<IEmailSender, EmailSender>();
-            builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
 
             var app = builder.Build();
 
