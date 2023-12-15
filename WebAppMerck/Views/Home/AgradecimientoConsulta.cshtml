@@ -2,9 +2,9 @@
     ViewData["Title"] = "AgradecimientoConsulta";
 }
 
-<header style="background-color:#EC3B96">
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light mb-3>
-        <div class="container-fluid>
+<header style="background-color:#2EBDCD">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light mb-0">
+        <div class="container-fluid">
             <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -23,7 +23,7 @@
 <div style="background-color:#2EBDCD;">
     <div class="row justify-content-center">
         <div class="col-1"></div>
-        <div class="col-7 offset-1 text-center align-self-center" style="color: white; font-size: 2em">Fin De Consulta</div>
+        <div class="col-7 offset-1 text-center align-self-center" style="color: white; font-size: 2em">Consulta Enviada</div>
         <div class="col-2">
         </div>
 
@@ -34,8 +34,14 @@
 
 <div class="container">
     <div class="row">
-        <h1 style="text-align:center; color:#2EBDCD">GRACIAS POR SU CONSULTA, NOS ESTAREMOS COMUNICANDO CON USTED A LA BREVEDAD</h1>
+        <h1 style="text-align:center; color:#2EBDCD"></h1>
     </div>
 </div>
 
-<a class="btn btn-danger col-6 offset-3 p-3 my-5" href="@Url.Action("Index","Home")">Volver al Inicio</a>
+<div class="container mt-3 mb-5">
+    <div class="row">
+        <div class="col-12">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-info col-8 offset-2 p-9 btn-rounded custom-btn btn-text-white" style="border-radius: 35px; border: 2px solid white; background-color: #067785; color: #94d4de;margin-right:90px; font-size:17px">Volver a Consultar</a>
+        </div>
+    </div>
+</div>

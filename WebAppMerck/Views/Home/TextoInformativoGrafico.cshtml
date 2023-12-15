@@ -1,0 +1,78 @@
+﻿@model WebAppMerck.Models.Formulario
+
+<header style="background-color: #2EBDCD;">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light mb-0">
+        <div class="container-fluid">
+            <button style="border: none; padding: 0; background-color: #2EBDCD; margin-top: 10px; margin-right: 10px" class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<body>
+    <div class="row" style="background-color: #2EBDCD;">
+        <div class="col-md-12">
+            <div class="col-12 text-center vh-50" style="margin-top: 35px">
+                <img class="mb-4" style="display:block; margin-left:auto; margin-right:auto" src="~/imagenes/LogoMerck.jpg" />
+
+                <div class="text-center" style="margin-top: 65px; margin-bottom: 45px; color:#aff3fb;">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <img src="~/imagenes/FlechaIzquierda.png" />
+                        </div>
+                        <div class="col">
+                            <p class="display-4" style="margin-bottom:0;">INDICADOR</p>
+                        </div>
+                        <div class="col">
+                            <img src="~/imagenes/FlechaDerecha.png" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="background-color: #ffff; border-top-left-radius: 1000px; border-top-right-radius: 1000px; height: 50px;">
+        </div>
+    </div>
+  
+    <div style="background-color: #ffff; text-align: center; font-weight: bold;">
+        <p style="margin: 0;">
+            La reserva ovárica es un indicador clave de la salud reproductiva de una mujer y se refiere a la
+            cantidad y calidad de los óvulos que tiene en sus ovarios. A medida que una mujer envejece,
+            es natural que la reserva ovárica disminuya gradualmente. Esta disminución se debe al agotamiento
+            natural de los folículos ováricos a lo largo del tiempo. La reserva ovárica baja puede estar asociada
+            con una reducción en la fertilidad y puede ser un factor importante a considerar 
+            para aquellas mujeres que planean concebir.
+            La disminución de la reserva ovárica puede influir en la capacidad de una mujer para
+            quedar embarazada de manera natural, y también puede afectar la respuesta a tratamientos de fertilidad.
+            Es importante tener en cuenta que la tasa de declive de la reserva ovárica puede variar 
+            entre mujeres, y factores genéticos y ambientales también pueden desempeñar un papel significativo. 
+            Las mujeres que están al tanto de su reserva ovárica pueden tomar decisiones informadas 
+            sobre la planificación familiar y explorar opciones como la preservación de la fertilidad si 
+            así lo desean.
+            En la práctica clínica, se realizan pruebas de la reserva ovárica para evaluar el estado de
+            los ovarios y anticipar posibles desafíos reproductivos. Las mujeres que están conscientes
+            de los cambios en su reserva ovárica pueden trabajar de cerca con profesionales de la salud
+            para desarrollar estrategias personalizadas y tomar decisiones informadas
+            sobre la maternidad. Es fundamental abordar cualquier preocupación sobre la 
+            reserva ovárica con un médico especializado en fertilidad para recibir
+            orientación y apoyo adecuados.
+        </p>
+        <div class="container mt-3 mb-5">
+            <div class="row">
+                <div class="col-12">
+                    <a asp-controller="Home" asp-action="ConsultaFinal" class="btn btn-info col-8 offset-2 p-9 btn-rounded custom-btn btn-text-white" style="border-radius: 35px; border: 2px solid white; background-color: #067785; color: #94d4de;margin-right:90px; font-size:17px">Contactar Centro</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>

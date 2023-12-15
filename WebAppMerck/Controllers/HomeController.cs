@@ -37,6 +37,7 @@ namespace WebAppMerck.Controllers
             return View();
         }
 
+      
         public IActionResult Index()
         {
             ViewData["TrackingId"] = _googleAnalyticsOptions.TrackingId;
@@ -48,14 +49,16 @@ namespace WebAppMerck.Controllers
             return View(modelo);
         }
 
-
-        [HttpGet]
-        public IActionResult GetBingMapsApiKey()
+        [HttpPost]
+        public IActionResult Index(Formulario data)
         {
-            var apiKey = _configuration["BingMapsCredentials:ApiKey"];
-            return Json(new { apiKey });
-        }
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("Indicador", data);
+            }
+            return View("Index", data);
 
+        }
 
         [HttpGet]
         public IActionResult Indicador(Formulario data)
@@ -70,15 +73,9 @@ namespace WebAppMerck.Controllers
             return View(data);
         }
 
-        [HttpPost]
-        public IActionResult Index(Formulario data)
+        public IActionResult TextoInformativoGrafico()
         {
-            if (ModelState.IsValid)
-            {
-                return RedirectToAction("Indicador", data);
-            }
-            return View("Index", data);
-
+            return View();
         }
 
         public IActionResult Consulta()
@@ -86,6 +83,12 @@ namespace WebAppMerck.Controllers
             var modelo = new FormularioViewModel();
             return View(modelo);
         }
+
+        public IActionResult ConsultaFinal()
+        {
+            return View();
+        }
+
 
         public IActionResult AgradecimientoConsulta()
         {
@@ -101,6 +104,13 @@ namespace WebAppMerck.Controllers
             var clinicas = await _clinicasServicio.ObtenerClinicasCsv(archivoCsv);
             var clinicasDto = _clinicasServicio.ConvertirClinicas(clinicas);
             return Json(clinicasDto);
+        }
+
+        [HttpGet]
+        public IActionResult GetBingMapsApiKey()
+        {
+            var apiKey = _configuration["BingMapsCredentials:ApiKey"];
+            return Json(new { apiKey });
         }
 
         [HttpPost]
