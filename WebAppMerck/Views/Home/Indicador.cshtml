@@ -24,13 +24,31 @@
 
 <div class="col-12 text-center vh-50" style="background-color:#EC3B96; padding: 150px;">
     <div class="text-center text-white">
-        <img class="justify-content-center" style="display:block; margin-left:auto; margin-right:auto" src="~/imagenes/LogoMerckRosa.jpg" />
+        <img class="mx-auto mb-4" src="~/imagenes/LogoMerckRosa.jpg" style="max-width: 100%;" />
     </div>
-    <div>
-        <p class="h4 text-white">EDAD ACTUAL: @TempData["EdadActual"] AÑOS</p>
-        <p class="h4 text-white">1ERA MENSTRUACIÓN: A LOS @TempData["EdadPrimeraMenstruacion"] AÑOS</p>
+    <div class="col-12">
+        <div class="row">
+            <div class="col">
+                <p class="text-white" style="font-size: 23px">EDAD ACTUAL:</p>
+                <p class="text-white">@TempData["EdadActual"] AÑOS</p>
+                <p class="text-white">1ERA MENSTRUACIÓN:</p>
+                <p class="text-white">A LOS @TempData["EdadPrimeraMenstruacion"] AÑOS</p>
+            </div>
+        </div>
     </div>
+
+    <div class="row mt-3">
+        <div class="col-md-6 offset-md-3 text-center">
+            <a asp-controller="Home" asp-action="Consulta" class="btn btn-primary">Más Información</a>
+        </div>
+    </div>
+
 </div>
+
+
+
+
+
 
 <div class="col-12 mt-4 text-center">
     <h3 style="color: #EC3B96;">Curva de Fertilidad</h3>
@@ -66,13 +84,6 @@
         chart.draw(data, options);
     }
 </script>
-
-
-<div class="row mt-3">
-    <div class="col-md-6 offset-md-3 text-center">
-        <a asp-controller="Home" asp-action="Consulta" class="btn btn-primary">Más Información</a>
-    </div>
-</div>
 
 
 

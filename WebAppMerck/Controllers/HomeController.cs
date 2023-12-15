@@ -8,6 +8,7 @@ using SendGrid;
 using SendGrid.Helpers.Mail;
 using WebAppMerck.Servicios.Interfaces;
 using Microsoft.Extensions.Options;
+using Microsoft.Identity.Client;
 
 namespace WebAppMerck.Controllers
 {
@@ -16,20 +17,26 @@ namespace WebAppMerck.Controllers
         private readonly GoogleAnalyticsOptions _googleAnalyticsOptions;
         private readonly IEmailSender _emailSender;
         private readonly CalcularFertilidad _calcularFertilidad;
-        private readonly IHttpClientFactory _httpClient;
+        private readonly IHttpClientFactory _httpClientFactory;
         private readonly ClinicasServicio _clinicasServicio;
         private readonly IConfiguration _configuration;
 
-        public HomeController(IOptions<GoogleAnalyticsOptions> googleAnalyticsOptions, IEmailSender emailSender, IHttpClientFactory httpClient, ClinicasServicio clinicasServicio, IConfiguration configuration, CalcularFertilidad calcularFertilidad)
+        public HomeController(IOptions<GoogleAnalyticsOptions> googleAnalyticsOptions, IEmailSender emailSender, IHttpClientFactory httpClientFactory, ClinicasServicio clinicasServicio, IConfiguration configuration, CalcularFertilidad calcularFertilidad)
         {
             _googleAnalyticsOptions = googleAnalyticsOptions.Value;
             _emailSender = emailSender;
             _calcularFertilidad = calcularFertilidad;
-            _httpClient = httpClient;
+            _httpClientFactory = httpClientFactory;
             _clinicasServicio = clinicasServicio;
             _configuration = configuration;
 
         }
+
+        public IActionResult Inicio()
+        {
+            return View();
+        }
+
         public IActionResult Index()
         {
             ViewData["TrackingId"] = _googleAnalyticsOptions.TrackingId;

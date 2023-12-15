@@ -3,14 +3,14 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-<header style="background-color:#2EBDCD">
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light mb-3>
-            <div class="container-fluid>
-                <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+<header style="background-color: #2EBDCD;">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light mb-0">
+            <div class="container-fluid">
+                <button style="border: none; padding: 0; background-color: #2EBDCD; margin-top: 10px; margin-right: 10px" class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between"> 
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
@@ -26,52 +26,82 @@
                         </li>
                     </ul>
                 </div>
-            </div>
-        </nav>
+            </div> 
+        </nav>  
     </header>
-<div class="row">
-    <div class="col-md-12">
-        <form method="post" asp-action="Index">
-            <div class="col-12 text-center vh-50" style="background-color: #2EBDCD; padding: 150px;">
-                <div class="text-center text-white">
-                    <img style="display:block; margin-left:auto; margin-right:auto" src="~/imagenes/LogoMerck.jpg" />
+    <div class="row" style="background-color: #2EBDCD;">
+            <div class="col-md-12">
+                <div class="col-12 text-center vh-50" style="margin-top: 70px">
+                    <img class="mb-4" style="display:block; margin-left:auto; margin-right:auto" src="~/imagenes/LogoMerck.jpg" />
+
+                    <div class="text-center text-white" style="margin-top: 110px; margin-bottom: 60px">
+                        <p class="display-4">Formulario</p>
+                    </div>
                 </div>
-                <h1 class="display-4 text-white">Formulario</h1>
             </div>
+        </div>
 
+<div class="row">
+    <div class="col-md-12" style="background-color: #ffff;">
+        <form method="post" asp-action="Index">
             <div class="text-center">
-                <div class="container mt-5" style="border-bottom: 1px solid #000; padding-bottom: 15px; margin-bottom: 15px;">
+                <div class="container mt-5" style="border-bottom: 2px solid #CCCCCC; padding-bottom: 15px; margin-bottom: 15px; width: 80%;">
                     <div class="row">
-                        <div class="col-12">
-                            <i class="fas fa-user"></i>
+                        <div class="col-1">
+                            <img src="~/imagenes/IconoEdadActual.png" style="width: 80px; height: 80px;" />
                         </div>
-                        <div class="col-12">
-                            <p class="h4">Edad actual</p>
-                            <input type="text" id="edadActual" name="edadActual" value="@Model.EdadActual">
-                            @Html.ValidationMessageFor(model => model.EdadActual)
+                        <div class="col-11">
+                            <div class="row">
+                                <div class="col" style="margin-top: 5px">
+                                    <p style="color: #6d62a0; text-align:center; font-size: 23px; font-weight: 500;">Edad actual</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col" style="margin-top: -13px">
+                                    <select id="edadActual" name="edadActual" value="@Model.EdadActual" style="width: 120px; height: 30px; border: 2px solid #333333; border-radius: 5px;">
+                                        @for (int i = 1; i <= 100; i++)
+                                        {
+                                            <option value="@i">@i</option>
+                                        }
+                                    </select>
+                                    @Html.ValidationMessageFor(model => model.EdadActual)
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="container mt-3" style="border-bottom: 1px solid #000; padding-bottom: 15px; margin-bottom: 15px;">
+                <div class="container mt-3" style="border-bottom: 2px solid #CCCCCC; padding-bottom: 15px; margin-bottom: 15px; width: 80%;">
                     <div class="row">
-                        <div class="col-12">
-                            <i class="fas fa-calendar"></i>
+                        <div class="col-1">
+                            <img src="~/imagenes/IconoEdadPrimeraMenstruacion.png" style="width: 80px; height: 80px;"/>
                         </div>
-                        <div class="col-12">
-                            <p class="h4">Edad primera menstruacion</p>
-                            <input type="text" id="edadMenstruacion" name="EdadPrimeraMenstruacion" value="@Model.EdadPrimeraMenstruacion">
-                            @Html.ValidationMessageFor(model => model.EdadPrimeraMenstruacion)
+                        <div class="col-11">
+                            <div class="row">
+                                <div class="col">
+                                    <p style="color:#E26DA2; text-align:center; font-size: 23px; margin-bottom: -7px; font-weight: 500; margin-left: 15px">Edad primera</p>
+                                    <p style="color:#E26DA2; text-align:center; font-size: 23px; margin-bottom: -10px; font-weight: 500; margin-left: 15px">menstruacion</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <select type="text" id="edadMenstruacion" name="EdadPrimeraMenstruacion" value="@Model.EdadPrimeraMenstruacion" style="width: 120px; height: 30px; margin-top: 10px; border: 2px solid #333333; border-radius: 5px;">
+                                        @for (int i = 1; i <= 100; i++)
+                                        {
+                                            <option value="@i">@i</option>
+                                        }
+                                    </select>
+                                    @Html.ValidationMessageFor(model => model.EdadPrimeraMenstruacion)
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="container mt-3">
+                <div class="container mt-5">
                     <div class="row">
                         <div class="col-12">
-                        </div>
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-primary">Siguiente</button
+                            <button type="submit" class="btn btn-info col-8 offset-2 p-9 my-5 btn-rounded custom-btn btn-text-white" style="border-radius: 35px; border: 2px solid white; background-color: #067785; color: #94d4de; margin-right:90px; font-size:17px">Iniciar</button>
                         </div>
                     </div>
                 </div>

@@ -20,14 +20,22 @@
     </nav>
 </header>
 
-<div style="background-color: #2EBDCD;">
-    <div class="text-center">
-        <p class="text-white">Muchas gracias por su contacto. La consulta fue enviada</p>
+<div style="background-color:#2EBDCD;">
+    <div class="row justify-content-center">
+        <div class="col-1"></div>
+        <div class="col-7 offset-1 text-center align-self-center" style="color: white; font-size: 2em">Fin De Consulta</div>
+        <div class="col-2">
+        </div>
 
-        <div class="row mt-3">
-            <div class="col-md-6 offset-md-3 text-center">
-                <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Volver a Consultar</a>
-            </div>
+        <div style="background-color:white; border-top-left-radius: 1000px; border-top-right-radius: 1000px; height: 50px">
         </div>
     </div>
 </div>
+
+<div class="container">
+    <div class="row">
+        <h1 style="text-align:center; color:#2EBDCD">GRACIAS POR SU CONSULTA, NOS ESTAREMOS COMUNICANDO CON USTED A LA BREVEDAD</h1>
+    </div>
+</div>
+
+<a class="btn btn-danger col-6 offset-3 p-3 my-5" href="@Url.Action("Index","Home")">Volver al Inicio</a>
