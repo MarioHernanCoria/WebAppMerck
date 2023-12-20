@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using SendGrid;
 using System.Configuration;
 using WebAppMerck.DataAccess;
-using WebAppMerck.Models;
+using WebAppMerck.Models.Key;
 using WebAppMerck.Servicios;
 using WebAppMerck.Servicios.Interfaces;
 
@@ -23,15 +23,20 @@ namespace WebAppMerck
 
             builder.Services.Configure<GoogleAnalyticsOptions>(builder.Configuration.GetSection("GoogleAnalytics"));
 
+            builder.Services.AddDbContext<BdAppMerckContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("BdAppMerckContext")));
+
+            builder.Services.AddScoped<ClinicasServicio>(provider =>
+            {
+                var config = provider.GetRequiredService<IConfiguration>();
+                var filePath = config.GetValue<string>("FileUrl:GithubUrl");
+                return new ClinicasServicio(filePath);
+            });
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddDbContext<AppDbContext>(options =>
-            {
-                options.UseSqlServer("name=DefaultConnection");
-            });
 
-            
+
             builder.Services.AddHttpClient();
             builder.Services.AddScoped<ClinicasServicio>();
             builder.Services.AddScoped<CalcularFertilidad>();

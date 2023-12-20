@@ -2,23 +2,23 @@
     ViewData["Title"] = "AgradecimientoConsulta";
 }
 
-<header style="background-color:#2EBDCD">
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light mb-0">
-        <div class="container-fluid">
-            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-</header>
+<nav class="navbar">
+    <div class="logo">
+        <a asp-area="" asp-controller="Home" asp-action="Index">
+            <img src="~/imagenes/FlechanNavBar.png" />
+        </a>
+    </div>
+    <ul class="nav-list" id="navList">
+        <li>
+            <a asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
+        </li>
+    </ul>
+    <div class="burger" id="burger">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+    </div>
+</nav>
 
 <div style="background-color:#2EBDCD;">
     <div class="row justify-content-center">

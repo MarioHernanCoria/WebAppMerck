@@ -9,13 +9,20 @@ namespace WebAppMerck.Servicios
 {
     public class ClinicasServicio
     {
-        public async Task<List<ClinicasDto>> ObtenerClinicasCsv(string filePath)
+        private readonly string _filePath;
+
+        public ClinicasServicio(string filePath)
+        {
+            _filePath = filePath;
+        }
+
+        public List<ClinicasDto> ObtenerClinicasCsv()
         {
             try
             {
                 using (var httpClient = new HttpClient())
                 {
-                    var csvContent = await httpClient.GetStringAsync(filePath);
+                    var csvContent = httpClient.GetStringAsync(_filePath).Result;
 
                     using (var reader = new StringReader(csvContent))
                     using (var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)
@@ -42,6 +49,7 @@ namespace WebAppMerck.Servicios
               Direccion = clinica.Direccion,
               Latitud = clinica.Latitud,
               Longitud = clinica.Longitud,
+              Provincia = clinica.Provincia,
 
            }).ToList();
 

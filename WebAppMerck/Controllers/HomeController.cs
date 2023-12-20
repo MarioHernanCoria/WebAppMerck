@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebAppMerck.Servicios;
 using Microsoft.Extensions.Configuration;
-using WebAppMerck.Models;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using SendGrid;
@@ -9,11 +8,23 @@ using SendGrid.Helpers.Mail;
 using WebAppMerck.Servicios.Interfaces;
 using Microsoft.Extensions.Options;
 using Microsoft.Identity.Client;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using WebAppMerck.DataAccess;
+using Newtonsoft.Json;
+using WebAppMerck.Models.DTOs;
+using System.Linq;
+using WebAppMerck.Models.Key;
+using WebAppMerck.Models.ViewModel;
+using WebAppMerck.Models.Entities;
+using WebAppMerck.Models;
+using static System.Net.WebRequestMethods;
 
 namespace WebAppMerck.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly BdAppMerckContext _appMerckContext;
         private readonly GoogleAnalyticsOptions _googleAnalyticsOptions;
         private readonly IEmailSender _emailSender;
         private readonly CalcularFertilidad _calcularFertilidad;
@@ -21,8 +32,9 @@ namespace WebAppMerck.Controllers
         private readonly ClinicasServicio _clinicasServicio;
         private readonly IConfiguration _configuration;
 
-        public HomeController(IOptions<GoogleAnalyticsOptions> googleAnalyticsOptions, IEmailSender emailSender, IHttpClientFactory httpClientFactory, ClinicasServicio clinicasServicio, IConfiguration configuration, CalcularFertilidad calcularFertilidad)
+        public HomeController(BdAppMerckContext appMerckContext, IOptions<GoogleAnalyticsOptions> googleAnalyticsOptions, IEmailSender emailSender, IHttpClientFactory httpClientFactory, ClinicasServicio clinicasServicio, IConfiguration configuration, CalcularFertilidad calcularFertilidad)
         {
+            _appMerckContext = appMerckContext;
             _googleAnalyticsOptions = googleAnalyticsOptions.Value;
             _emailSender = emailSender;
             _calcularFertilidad = calcularFertilidad;
@@ -37,7 +49,7 @@ namespace WebAppMerck.Controllers
             return View();
         }
 
-      
+
         public IActionResult Index()
         {
             ViewData["TrackingId"] = _googleAnalyticsOptions.TrackingId;
@@ -86,25 +98,60 @@ namespace WebAppMerck.Controllers
 
         public IActionResult ConsultaFinal()
         {
-            return View();
+            var viewModel = new UbicacionViewModel
+            {
+                // Obtener la lista de provincias utilizando GetSelectListItems
+                Provincias = GetSelectListItems(
+                    items: _appMerckContext.Provincia.ToList(),
+                    valueSelector: p => p.Id.ToString(),
+                    textSelector: p => p.Provincias
+                ),
+
+                // Obtener la lista de clínicas utilizando GetSelectListItems
+                ClinicasItems = GetSelectListItems(
+                    items: _appMerckContext.Clinicas.ToList(),
+                    valueSelector: c => c.Id.ToString(),
+                    textSelector: c => c.Nombre
+                ),
+            };
+
+            return View("ConsultaFinal", viewModel);
+        }
+        private List<SelectListItem> GetSelectListItems<T>(IEnumerable<T> items, Func<T, string> valueSelector, Func<T, string> textSelector)
+        {
+            return items.Select(item => new SelectListItem
+            {
+                Value = valueSelector(item),
+                Text = textSelector(item)
+            }).ToList();
         }
 
+        //[HttpPost]
+        //public JsonResult ObtenerLocalidades(int idProvincia)
+        //{
+        //    var localidades = _appMerckContext.Localidades
+        //        .Where(l => l.IdProvincia == idProvincia)
+        //        .ToList();
 
-        public IActionResult AgradecimientoConsulta()
+        //    return Json(localidades);
+        //}
+
+        public IActionResult ObtenerClinicas(UbicacionViewModel viewModel)
         {
+            if (viewModel.Provincia == null)
+            {
+                return Json(new List<ClinicasDto>());
+            }
 
-            return View();
-        }
-
-
-
-        public async Task<IActionResult> ObtenerClinicas()
-        {
-            var archivoCsv = "https://raw.githubusercontent.com/MarioHernanCoria/clinicas/main/clinicasFertilidad.csv";
-            var clinicas = await _clinicasServicio.ObtenerClinicasCsv(archivoCsv);
+            var clinicas = _clinicasServicio.ObtenerClinicasCsv();
             var clinicasDto = _clinicasServicio.ConvertirClinicas(clinicas);
+
+            var clinicasFiltradas = clinicas.Where(c => c.Provincia == "ProvinciaElegida").ToList();
+
             return Json(clinicasDto);
         }
+
+
 
         [HttpGet]
         public IActionResult GetBingMapsApiKey()
@@ -136,3 +183,20 @@ namespace WebAppMerck.Controllers
         }
     }
 }
+
+
+//public IActionResult ConsultaFinal()
+//{
+//    var viewModel = new UbicacionViewModel
+//    {
+//        Provincias = _appMerckContext.Provincia
+//            .Select(p => new SelectListItem { Value = p.Id.ToString(), Text = p.Provincias })
+//            .ToList(),
+
+//        ClinicasItems = _appMerckContext.Clinicas
+//            .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Nombre })
+//            .ToList()
+//    };
+
+//    return View("ConsultaFinal", viewModel);
+//}

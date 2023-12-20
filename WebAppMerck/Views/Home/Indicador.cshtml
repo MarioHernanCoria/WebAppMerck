@@ -1,28 +1,27 @@
-﻿@model WebAppMerck.Models.Formulario
+﻿@model WebAppMerck.Models.Entities.Formulario
 
 @{
     ViewData["Title"] = "Indicador";
 }
+<nav class="navbar" style="background-color:#EC3B96">
+    <div class="logo">
+        <a asp-area="" asp-controller="Home" asp-action="Index">
+            <img src="~/imagenes/FlechaNavBarRosa.png" />
+        </a>
+    </div>
+    <ul class="nav-list" id="navList">
+        <li>
+            <a asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
+        </li>
+    </ul>
+    <div class="burger" id="burger">
+        <div class="line" ></div>
+        <div class="line"></div>
+        <div class="line"></div>
+    </div>
+</nav>
 
-<header style="background-color:#EC3B96">
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light mb-0">
-        <div class="container-fluid">
-            <button style="border: none; padding: 0; background-color: #EC3B96; margin-top: 10px; margin-right: 10px" class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-</header>
-
-<div class="row" style="background-color:#EC3B96">
+<div class="row" style="background-color:#EC3B96; padding:0; margin:0;">
     <div class="col-md-12">
         <div class="col-12 text-center vh-50" style="margin-top: 40px">
             <img class="mx-auto mb-4" src="~/imagenes/LogoMerckRosa.jpg" style="max-width: 100%;" />
@@ -32,39 +31,39 @@
                     <div class="row">
                         <div class="col">
                             <p style="color: #f8dcf1; font-size: 23px; font-weight: 500; margin-bottom: 0px; margin-right: 117px">EDAD ACTUAL:</p>
-                            <p style="color: #f8b2e5; font-size: 23px; margin-top: -10px; margin-right: 180px; font-weight: 400;">@TempData["EdadActual"] AÑOS</p>
+                            <p style="color: #f8b2e5; font-size: 23px; margin-top: -10px; margin-right: 200px; font-weight: 400;">@TempData["EdadActual"] AÑOS</p>
                             <p style="color: #f8dcf1; font-size: 23px; font-weight: 500; margin-bottom: 0px; margin-right: 35px">1ERA MENSTRUACIÓN:</p>
-                            <p style="color: #f8b2e5; font-size: 23px; margin-top: -10px; margin-right: 110px; font-weight: 400">A LOS @TempData["EdadPrimeraMenstruacion"] AÑOS</p>
+                            <p style="color: #f8b2e5; font-size: 23px; margin-top: -10px; margin-right: 130px; font-weight: 400">A LOS @TempData["EdadPrimeraMenstruacion"] AÑOS</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row mt-0">
+        <div class="row m-0 p-0">
             <div class="col-md-6 offset-md-3 text-center">
-                <a asp-controller="Home" asp-action="TextoInformativoGrafico" class="btn btn-info col-8 offset-2 p-9 my-5 btn-rounded custom-btn btn-text-white" style="border-radius: 35px; border: 2px solid #94a8c1; background-color: #067785; color: #94d4de; margin-right:90px; font-size:17px">Quiero saber mas!</a>
+                <a asp-controller="Home" asp-action="TextoInformativoGrafico" class="btn btn-info col-8 offset-2 p-0 my-5 btn-rounded custom-btn btn-text-white" style="border-radius: 35px; border: 2px solid #94a8c1; background-color: #067785; color: #94d4de; margin-right:60px; font-size:17px">Quiero saber mas!</a>
             </div>
         </div>
     </div>
 
-    <div class="row" style="background-color: #ead8d8; border-top-left-radius: 2000px; border-top-right-radius: 2000px; height: 50px">
-        <p style="color: #46413e; margin-left:15px; margin-bottom: 10px; margin-top: 10px; font-size: 30px; font-weight: 700; letter-spacing: -2px">Tasa de Fertilidad</p>
+    <div class="row" style="background-color: #ead8d8; border-top-left-radius: 2000px; border-top-right-radius: 2000px; height: 50px; margin:0;">
+        <p style="color: #46413e; margin-left:15px; margin-bottom: 10px; margin-top: 10px; font-size: 30px; font-weight: 700; letter-spacing: -2px; margin:0;">Tasa de Fertilidad</p>
     </div>
 </div>
 
 
-<div class="row">
-    <div class="col-12">
-        <div id="chart_div"
-             data-edad-actual="@Model.EdadActual"
-             data-edad-primera-menstruacion="@Model.EdadPrimeraMenstruacion"
-             class="card border-primar container-fluid"
-             style="height: 60vh; margin: 0 auto; padding: 0px">
+<div class="row" style="padding: 0; margin: 0;">
+    <div class="col-12" style="padding: 0;">
+        <div class="embed-responsive embed-responsive-16by9" style="margin: 0 auto; height: 50vh;">
+            <div id="chart_div"
+                data-edad-actual="@Model.EdadActual"
+                data-edad-primera-menstruacion="@Model.EdadPrimeraMenstruacion"
+                class="card border-primar embed-responsive-item"
+                style="padding: 0px; height: 100%;">
+            </div>
         </div>
     </div>
 </div>
-
-
 <script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
 <script type="text/javascript">
     ﻿document.addEventListener('DOMContentLoaded', (event) => {
@@ -100,3 +99,26 @@
 });
 
 </script>
+
+
+
+@* <header style="background-color:#EC3B96">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light mb-0" style="background-color:#EC3B96">
+        <div class="container-fluid" style="background-color:#EC3B96">
+                <img style="margin-left: 15px; margin-top:10px; background-color:#EC3B96" src="~/imagenes/FlechaNavBarRosa.png" />
+
+            <button style="border: none; padding: 0; background-color: #EC3B96; margin-top: 10px; margin-right: 10px" class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header> *@
+

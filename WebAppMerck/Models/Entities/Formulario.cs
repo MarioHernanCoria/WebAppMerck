@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace WebAppMerck.Models
+namespace WebAppMerck.Models.Entities
 {
     public class Formulario
     {

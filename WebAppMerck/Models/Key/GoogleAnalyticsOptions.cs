@@ -1,4 +1,4 @@
-﻿namespace WebAppMerck.Models
+﻿namespace WebAppMerck.Models.Key
 {
     public class GoogleAnalyticsOptions
     {

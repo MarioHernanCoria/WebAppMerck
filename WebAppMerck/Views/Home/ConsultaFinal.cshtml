@@ -1,50 +1,51 @@
-﻿@model WebAppMerck.Models.Formulario
-
-<header style="background-color: #2EBDCD;">
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light mb-0">
-        <div class="container-fluid">
-            <button style="border: none; padding: 0; background-color: #2EBDCD; margin-top: 10px; margin-right: 10px" class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
-                    </li>
-
-                </ul>
-            </div>
-        </div>
-    </nav>
-</header>
+﻿@model WebAppMerck.Models.ViewModel.UbicacionViewModel
 
 
-    <div class="row" style="background-color: #2EBDCD;">
-        <div class="col-md-12">
-            <div class="col-12 text-center vh-50" style="margin-top: 35px">
-                <img class="mb-4" style="display:block; margin-left:auto; margin-right:auto" src="~/imagenes/LogoMerck.jpg" />
+<nav class="navbar">
+    <div class="logo">
+        <a asp-area="" asp-controller="Home" asp-action="TextoInformativoGrafico">
+            <img src="~/imagenes/FlechanNavBar.png" />
+        </a>
+    </div>
+    <ul class="nav-list" id="navList">
+        <li>
+            <a asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
+        </li>
+    </ul>
+    <div class="burger" id="burger">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+    </div>
+</nav>
 
-                <div class="text-center" style="margin-top: 65px; margin-bottom: 45px; color:#aff3fb;">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <img src="~/imagenes/FlechaIzquierda.png" />
-                        </div>
-                        <div class="col">
-                            <p class="display-4" style="margin-bottom:0;">FORMULARIO</p>
-                        </div>
-                        <div class="col">
-                            <img src="~/imagenes/FlechaDerecha.png" />
-                        </div>
+<div class="row" style="background-color: #2EBDCD; margin:0">
+    <div class="col-md-12">
+        <div class="col-12 text-center vh-50" style="margin-top: 35px">
+            <img class="mb-4" style="display:block; margin-left:auto; margin-right:auto" src="~/imagenes/LogoMerck.jpg" />
+
+            <div class="text-center" style="margin-top: 65px; margin-bottom: 45px; color:#aff3fb;">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <img src="~/imagenes/FlechaIzquierda.png" />
+                    </div>
+                    <div class="col">
+                        <p class="display-4" style="margin-bottom:0;">FORMULARIO</p>
+                    </div>
+                    <div class="col">
+                        <img src="~/imagenes/FlechaDerecha.png" />
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row" style="background-color: #ffff; border-top-left-radius: 1000px; border-top-right-radius: 1000px; height: 50px;">
-        </div>
     </div>
+    <div class="row" style="background-color: #ffff; border-top-left-radius: 1000px; border-top-right-radius: 1000px; height: 50px;margin:0">
+    </div>
+</div>
 
-    <div class="container mt-5" style="border-bottom: 2px solid #CCCCCC; padding-bottom: 15px; margin-bottom: 15px; width: 80%;">
+<form asp-action="ConsultaFinal" method="post">
+
+    <div class="container mt-3" style="border-bottom: 2px solid #CCCCCC; padding-bottom: 10px; margin-bottom: 10px; width: 80%; padding-left:45px">
         <div class="row">
             <div class="col-1">
                 <img src="~/imagenes/FotoUbicacion.png" style="width: 80px; height: 80px;" />
@@ -52,20 +53,21 @@
             <div class="col-11">
                 <div class="row">
                     <div class="col" style="margin-top: 5px">
-                        <p style="color: #6d62a0; text-align:center; font-size: 23px; font-weight: 500;">Pais</p>
+                        <p style="color: #776793; text-align:center; font-size: 23px; font-weight: 500; margin-right:28px;">Pais</p>
                     </div>
                 </div>
                 <div class="row" style="margin-left: 80px;">
                     <div class="col" style="margin-top: -13px">
-                        <select id="edadActual" name="edadActual" style="width: 120px; height: 30px; border: 2px solid #333333; border-radius: 5px;">
- 
+                        <select id="edadActual" name="edadActual" style="width: 160px; height: 30px; border: 2px solid #333333; border-radius: 5px;">
+                            <option value="">Selecciona un Pais</option>
+                            <option>Argentina</option>
                         </select>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="container mt-5" style="border-bottom: 2px solid #CCCCCC; padding-bottom: 15px; margin-bottom: 15px; width: 80%;">
+    <div class="container mt-3" style="border-bottom: 2px solid #CCCCCC; padding-bottom: 10px; margin-bottom: 10px; width: 80%; padding-left:45px">
         <div class="row">
             <div class="col-1">
                 <img src="~/imagenes/FotoUbicacion.png" style="width: 80px; height: 80px;" />
@@ -73,19 +75,24 @@
             <div class="col-11">
                 <div class="row">
                     <div class="col" style="margin-top: 5px">
-                        <p style="color: #6d62a0; text-align:center; font-size: 23px; font-weight: 500;">Provincia</p>
+                        <p style="color: #776793; text-align:center; font-size: 23px; font-weight: 500;margin-right:-20px">Provincia</p>
                     </div>
                 </div>
-            <div class="row" style="margin-left: 80px;">
+                <div class="row" style="margin-left: 80px;">
                     <div class="col" style="margin-top: -13px">
-                        <select id="edadActual" name="edadActual" style="width: 120px; height: 30px; border: 2px solid #333333; border-radius: 5px;">
+                        <select id="provincia" name="provincia" style="width: 160px; height: 30px; border: 2px solid #333333; border-radius: 5px;">
+                            @foreach (var provincia in Model.Provincias)
+                            {
+                                <option value="@provincia.Value">@provincia.Text</option>
+                            }
                         </select>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="container mt-5" style="border-bottom: 2px solid #CCCCCC; padding-bottom: 15px; margin-bottom: 15px; width: 80%;">
+    <div class="container mt-3" style="border-bottom: 2px solid #CCCCCC; padding-bottom: 10px; margin-bottom: 10px; width: 80%;padding-left:45px">
         <div class="row">
             <div class="col-1">
                 <img src="~/imagenes/FotoUbicacion.png" style="width: 80px; height: 80px;" />
@@ -93,19 +100,20 @@
             <div class="col-11">
                 <div class="row">
                     <div class="col" style="margin-top: 5px">
-                        <p style="color: #6d62a0; text-align:center; font-size: 23px; font-weight: 500;">Localidad</p>
+                        <p style="color: #776793; text-align:center; font-size: 23px; font-weight: 500; margin-right:-20px">Localidad</p>
                     </div>
                 </div>
-            <div class="row" style="margin-left: 80px;">
+                <div class="row" style="margin-left: 80px;">
                     <div class="col" style="margin-top: -13px">
-                        <select id="edadActual" name="edadActual" style="width: 120px; height: 30px; border: 2px solid #333333; border-radius: 5px;">
+                        <select id="localidad" name="localidad" style="width: 160px; height: 30px; border: 2px solid #333333; border-radius: 5px;">
+                            <option value="">Selecionar Localidad</option>
                         </select>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="container mt-5" style="border-bottom: 2px solid #CCCCCC; padding-bottom: 15px; margin-bottom: 15px; width: 80%;">
+    <div class="container mt-3" style="border-bottom: 2px solid #CCCCCC; padding-bottom: 10px; margin-bottom: 10px; width: 80%;padding-left:45px">
         <div class="row">
             <div class="col-1">
                 <img src="~/imagenes/FotoConsulta.png" style="width: 80px; height: 80px;" />
@@ -113,19 +121,25 @@
             <div class="col-11">
                 <div class="row">
                     <div class="col" style="margin-top: 5px">
-                        <p style="color: #6d62a0; text-align:center; font-size: 23px; font-weight: 500;">Motivo consulta</p>
+                        <p style="color: #ef4488; text-align:center; font-size: 23px; font-weight: 500; margin-left:85px;">Motivo consulta</p>
                     </div>
                 </div>
-            <div class="row" style="margin-left: 80px;">
+                <div class="row" style="margin-left: 80px;">
                     <div class="col" style="margin-top: -13px">
-                        <select id="edadActual" name="edadActual" style="width: 120px; height: 30px; border: 2px solid #333333; border-radius: 5px;">
+                        <select id="edadActual" name="edadActual" style="width: 160px; height: 30px; border: 2px solid #333333; border-radius: 5px;">
+                            <option value="">Consulta</option>
+                            <option>Edad y Reserva Ovárica</option>
+                            <option>Evaluación de Reserva Ovárica</option>
+                            <option>Mejora de la Fertilidad</option>
+                            <option>Enfermedades y Fertilidad</option>
+                            <option>Preservación de la Fertilidad</option>
                         </select>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="container mt-5" style="border-bottom: 2px solid #CCCCCC; padding-bottom: 15px; margin-bottom: 15px; width: 80%;">
+    <div class="container mt-3" style="border-bottom: 2px solid #CCCCCC; padding-bottom: 10px; margin-bottom: 10px; width: 80%;padding-left:45px">
         <div class="row">
             <div class="col-1">
                 <img src="~/imagenes/FotoEmail.png" style="width: 80px; height: 80px;" />
@@ -133,22 +147,96 @@
             <div class="col-11">
                 <div class="row">
                     <div class="col" style="margin-top: 5px">
-                        <p style="color: #6d62a0; text-align:center; font-size: 23px; font-weight: 500;">Mail contacto</p>
+                        <p style="color: #ef4488; text-align:center; font-size: 23px; font-weight: 500; margin-left:60px;">Mail contacto</p>
                     </div>
                 </div>
-            <div class="row" style="margin-left: 80px;">
+                <div class="row" style="margin-left: 80px;">
                     <div class="col" style="margin-top: -13px">
-                        <select id="edadActual" name="edadActual" style="width: 120px; height: 30px; border: 2px solid #333333; border-radius: 5px;">
-                        </select>
+                        <input id="Email" name="edadActual" type="email" placeholder="Correo electrónico" style="width: 160px; height: 30px; border: 2px solid #333333; border-radius: 5px;">
                     </div>
                 </div>
             </div>
         </div>
     </div>
-<div class="container mt-3 mb-5">
+    <div class="container mt-3" style="border-bottom: 2px solid #CCCCCC; padding-bottom: 10px; margin-bottom: 10px; width: 80%;padding-left:45px">
+        <div class="row">
+            <div class="col-1">
+                <img src="~/imagenes/FotoUbicacion.png" style="width: 80px; height: 80px;" />
+            </div>
+            <div class="col-11">
+                <div class="row">
+                    <div class="col" style="margin-top: 5px">
+                        <p style="color: #776793; text-align:center; font-size: 23px; font-weight: 500; margin-right:-20px">Clinicas</p>
+                    </div>
+                </div>
+                <div class="row" style="margin-left: 80px;">
+                    <div class="col" style="margin-top: -13px">
+                        <select id="clinicas" name="clinicas" style="width: 160px; height: 30px; border: 2px solid #333333; border-radius: 5px;"></select>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="container mt-3" style="display: flex; flex-wrap: wrap; justify-content: center;margin-bottom:5px;">
+    <div style="margin-left:60px; flex: 1;">
+        <img style="width: 50%;" src="~/imagenes/FotoPlanta.png" />
+    </div>
+    <div style="margin: 5px; flex: 1;">
+        <img style="width: 50%;" src="~/imagenes/FotoPlanta.png" />
+    </div>
+    <div style="margin: 5px; flex: 1;">
+        <img style="width: 50%;" src="~/imagenes/FotoPlanta.png" />
+    </div>
+</div>
+<div class="container mt-2" style="display: flex; flex-wrap: wrap; justify-content: center;">
+    <div style="margin-left: 60px; flex: 1;">
+        <img style="width: 50%;" src="~/imagenes/FotoPlanta.png" />
+    </div>
+    <div style="margin: 5px; flex: 1;">
+
+        <img style="width: 50%;" src="~/imagenes/FotoPlanta.png" />
+    </div>
+    <div style="margin: 5px; flex: 1;">
+        <img style="width: 50%;" src="~/imagenes/FotoPlanta.png" />
+    </div>
+</div>
+<div class="container mt-1">
     <div class="row">
         <div class="col-12">
-            <a asp-controller="Home" asp-action="AgradecimientoConsulta" class="btn btn-info col-8 offset-2 p-9 btn-rounded custom-btn btn-text-white" style="border-radius: 35px; border: 2px solid white; background-color: #067785; color: #94d4de;margin-right:90px; font-size:17px">Contactar Centro</a>
+            <a asp-controller="Home" asp-action="AgradecimientoConsulta" class="btn btn-info col-8 offset-2 p-9 btn-rounded custom-btn btn-text-white" style="border-radius: 35px; border: 2px solid white; background-color: #067785; color: #94d4de;margin-right:60px; font-size:17px">Enviar</a>
         </div>
     </div>
 </div>
+
+<script>
+
+    document.getElementById('provincia').addEventListener('change', function () {
+        var idProvincia = this.value;
+
+        fetch('/Home/ObtenerLocalidades', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'idProvincia=' + idProvincia
+        })
+            .then(response => response.json())
+            .then(data => {
+                var localidadDropdown = document.getElementById('localidad');
+                localidadDropdown.innerHTML = "";
+
+                data.forEach(function (localidad) {
+                    var option = document.createElement('option');
+                    option.value = localidad.Id;
+                    option.text = localidad.localidades;
+                    localidadDropdown.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    });
+
+</script>
+
+<script src="~/js/filtrarClinica.js"></script>
