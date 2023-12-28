@@ -28,6 +28,5 @@ namespace WebAppMerck.Models.ViewModel
         public List<SelectListItem> Consultas { get; set; }
         public List<ClinicasDto> Clinicas { get; set; }
         public List<SelectListItem> ClinicasItems { get; set; }
-
     }
 }
