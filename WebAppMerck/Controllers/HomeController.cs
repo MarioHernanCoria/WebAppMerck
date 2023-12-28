@@ -17,8 +17,6 @@ using System.Linq;
 using WebAppMerck.Models.Key;
 using WebAppMerck.Models.ViewModel;
 using WebAppMerck.Models.Entities;
-using WebAppMerck.Models;
-using static System.Net.WebRequestMethods;
 
 namespace WebAppMerck.Controllers
 {
@@ -49,6 +47,11 @@ namespace WebAppMerck.Controllers
             return View();
         }
 
+        public IActionResult AgradecimientoConsulta()
+        {
+            return View();
+        }
+
 
         public IActionResult Index()
         {
@@ -68,6 +71,9 @@ namespace WebAppMerck.Controllers
             {
                 return RedirectToAction("Indicador", data);
             }
+
+            ModelState.AddModelError("EdadActual", "Por favor, seleccione una edad válida.");
+            ModelState.AddModelError("EdadPrimeraMenstruacion", "Por favor, seleccione una edad válida.");
             return View("Index", data);
 
         }
@@ -100,23 +106,28 @@ namespace WebAppMerck.Controllers
         {
             var viewModel = new UbicacionViewModel
             {
-                // Obtener la lista de provincias utilizando GetSelectListItems
                 Provincias = GetSelectListItems(
                     items: _appMerckContext.Provincia.ToList(),
                     valueSelector: p => p.Id.ToString(),
                     textSelector: p => p.Provincias
                 ),
 
-                // Obtener la lista de clínicas utilizando GetSelectListItems
                 ClinicasItems = GetSelectListItems(
                     items: _appMerckContext.Clinicas.ToList(),
                     valueSelector: c => c.Id.ToString(),
                     textSelector: c => c.Nombre
                 ),
+
+                Localidades = GetSelectListItems(
+                    items: _appMerckContext.Localidades.ToList(),
+                    valueSelector: c => c.Id.ToString(),
+                    textSelector: c => c.Localidades
+                ),
             };
 
             return View("ConsultaFinal", viewModel);
         }
+
         private List<SelectListItem> GetSelectListItems<T>(IEnumerable<T> items, Func<T, string> valueSelector, Func<T, string> textSelector)
         {
             return items.Select(item => new SelectListItem
@@ -126,29 +137,85 @@ namespace WebAppMerck.Controllers
             }).ToList();
         }
 
-        //[HttpPost]
-        //public JsonResult ObtenerLocalidades(int idProvincia)
-        //{
-        //    var localidades = _appMerckContext.Localidades
-        //        .Where(l => l.IdProvincia == idProvincia)
-        //        .ToList();
 
-        //    return Json(localidades);
-        //}
-
-        public IActionResult ObtenerClinicas(UbicacionViewModel viewModel)
+        [HttpGet]
+        public IActionResult ObtenerLocalidades(string provincia)
         {
-            if (viewModel.Provincia == null)
+            if (string.IsNullOrEmpty(provincia))
             {
-                return Json(new List<ClinicasDto>());
+                return Json(new List<SelectListItem>());
+            }
+            int idProvincia = Convert.ToInt32(provincia); 
+
+            // Aquí deberías obtener las localidades filtradas por la provincia seleccionada
+            var localidadesFiltradas = _appMerckContext.Localidades
+                .Where(l => l.IdProvincia == idProvincia)
+                .Select(l => new SelectListItem
+                {
+                    Value = l.Id.ToString(),
+                    Text = l.Localidades
+                })
+                .ToList();
+
+            return Json(localidadesFiltradas);
+        }
+
+        [HttpGet]
+        public IActionResult ObtenerClinicas(string provincia)
+        {
+            if (string.IsNullOrEmpty(provincia))
+            {
+                return Json(new List<SelectListItem>());
             }
 
-            var clinicas = _clinicasServicio.ObtenerClinicasCsv();
-            var clinicasDto = _clinicasServicio.ConvertirClinicas(clinicas);
+            // Crear un diccionario de mapeo de códigos de provincia a nombres de provincia
+            var provincias = new Dictionary<string, string>
+                {
+                    {"1", "Buenos Aires" },
+                    {"2", "Buenos Aires-GBA" },
+                    {"3", "Capital Federal" },
+                    {"4", "Catamarca"},
+                    {"5", "Chaco"},
+                    {"6", "Chubut"},
+                    {"7", "Córdoba"},
+                    {"8", "Corrientes"},
+                    {"9", "Entre Ríos"},
+                    {"10", "Formosa"},
+                    {"11", "Jujuy"},
+                    {"12", "La Pampa"},
+                    {"13", "La Rioja"},
+                    {"14", "Mendoza"},
+                    {"15", "Misiones"},
+                    {"16", "Neuquén"},
+                    {"17", "Río Negro"},
+                    {"18", "Salta"},
+                    {"19", "San Juan"},
+                    {"20", "San Luis"},
+                    {"21", "Santa Cruz"},
+                    {"22", "Santa Fe"},
+                    {"23", "Santiago del Estero"},
+                    {"24", "Tierra del Fuego"},
+                    {"25", "Tucumán"},
+                };
+            
+            // Obtener el nombre de la provincia usando el código
+            if (provincias.TryGetValue(provincia, out var nombreProvincia))
+            {
+                var clinicasFiltradas = _appMerckContext.Clinicas
+                    .Where(c => c.Provincia == nombreProvincia)
+                    .Select(c => new SelectListItem
+                    {
+                        Value = c.Id.ToString(),
+                        Text = c.Nombre
+                    })
+                    .ToList();
 
-            var clinicasFiltradas = clinicas.Where(c => c.Provincia == "ProvinciaElegida").ToList();
-
-            return Json(clinicasDto);
+                return Json(clinicasFiltradas);
+            }
+            else
+            {
+                return Json(new List<SelectListItem>());
+            }
         }
 
 
@@ -181,6 +248,19 @@ namespace WebAppMerck.Controllers
 
             return View("Consulta", formularioViewModel);
         }
+        //public IActionResult ObtenerClinicas(UbicacionViewModel viewModel)
+        //{
+        //    if (viewModel.Provincia == null)
+        //    {
+        //        return Json(new List<ClinicasDto>());
+        //    }
+
+        //    var clinicas = _clinicasServicio.ObtenerClinicasCsv();
+        //    var clinicasDto = _clinicasServicio.ConvertirClinicas(clinicas);
+
+        //    var clinicasFiltradas = clinicas.Where(c => c.Provincia == "ProvinciaElegida").ToList();
+        //    return Json(clinicasFiltradas);
+        //}
     }
 }
 
@@ -199,4 +279,92 @@ namespace WebAppMerck.Controllers
 //    };
 
 //    return View("ConsultaFinal", viewModel);
+//}
+
+//[HttpPost]
+//public JsonResult ObtenerLocalidades(string idProvincia)
+//{
+//    var localidades = _appMerckContext.Localidades
+//        .ToList();
+
+//    return Json(localidades);
+//}
+
+
+//[HttpGet]
+//public IActionResult ObtenerClinicas(string provincia)
+//{
+//    if (string.IsNullOrEmpty(provincia))
+//    {
+//        return Json(new List<SelectListItem>());
+//    }
+
+//    var clinicasFiltradas = _appMerckContext.Clinicas
+//        .Where(c => c.Provincia == provincia)
+//        .Select(c => new SelectListItem
+//        {
+//            Value = c.Id.ToString(),
+//            Text = c.Nombre
+//        })
+//        .ToList();
+
+//    return Json(clinicasFiltradas);
+//}
+
+//[HttpGet]
+//public IActionResult ObtenerClinicas(string provincia)
+//{
+//    if (string.IsNullOrEmpty(provincia))
+//    {
+//        return Json(new List<SelectListItem>());
+//    }
+
+//    // Crear un diccionario de mapeo de códigos de provincia a nombres de provincia
+//    var provincias = new Dictionary<string, string>
+//        {
+//            { "1", "Buenos Aires" },
+//            { "2", "Buenos Aires-GBA" },
+//            {"3", "Capital Federal" },
+//            {"4", "Catamarca"},
+//            {"5", "Chaco"},
+//            {"6", "Chubut"},
+//            {"7", "Córdoba"},
+//            {"8", "Corrientes"},
+//            {"9", "Entre Ríos"},
+//            {"10", "Formosa"},
+//            {"11", "Jujuy"},
+//            {"12", "La Pampa"},
+//            {"13", "La Rioja"},
+//            {"14", "Mendoza"},
+//            {"15", "Misiones"},
+//            {"16", "Neuquén"},
+//            {"17", "Río Negro"},
+//            {"18", "Salta"},
+//            {"19", "San Juan"},
+//            {"20", "San Luis"},
+//            {"21", "Santa Cruz"},
+//            {"22", "Santa Fe"},
+//            {"23", "Santiago del Estero"},
+//            {"24", "Tierra del Fuego"},
+//            {"25", "Tucumán"},
+//        };
+
+//    // Obtener el nombre de la provincia usando el código
+//    if (provincias.TryGetValue(provincia, out var nombreProvincia))
+//    {
+//        var clinicasFiltradas = _appMerckContext.Clinicas
+//            .Where(c => c.Provincia == nombreProvincia)
+//            .Select(c => new SelectListItem
+//            {
+//                Value = c.Id.ToString(),
+//                Text = c.Nombre
+//            })
+//            .ToList();
+
+//        return Json(clinicasFiltradas);
+//    }
+//    else
+//    {
+//        return Json(new List<SelectListItem>());
+//    }
 //}

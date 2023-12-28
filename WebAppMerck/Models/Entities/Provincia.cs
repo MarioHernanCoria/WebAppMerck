@@ -10,4 +10,5 @@ public partial class Provincia
     public string Provincias { get; set; } = null!;
 
     public virtual ICollection<Localidad> Localidades { get; set; } = new List<Localidad>();
+
 }

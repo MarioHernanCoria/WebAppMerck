@@ -24,7 +24,7 @@ namespace WebAppMerck
             builder.Services.Configure<GoogleAnalyticsOptions>(builder.Configuration.GetSection("GoogleAnalytics"));
 
             builder.Services.AddDbContext<BdAppMerckContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("BdAppMerckContext")));
+            options.UseSqlServer(builder.Configuration.GetConnectionString("Hosted")));
 
             builder.Services.AddScoped<ClinicasServicio>(provider =>
             {
@@ -38,7 +38,6 @@ namespace WebAppMerck
 
 
             builder.Services.AddHttpClient();
-            builder.Services.AddScoped<ClinicasServicio>();
             builder.Services.AddScoped<CalcularFertilidad>();
             builder.Services.AddTransient<IEmailSender, EmailSender>();
 

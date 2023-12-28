@@ -65,14 +65,15 @@
                             </div>
                             <div class="row">
                                 <div class="col" style="margin-top: -13px">
-                                    <select id="edadActual" name="edadActual" value="@Model.EdadActual" style="width: 140px; height: 30px; border: 2px solid #333333; border-radius: 5px; margin-left:21px">
+                                    <select id="EdadActual" asp-for="@Model.EdadActual" class="form-control" style="width: 140px; height: 30px; border: 2px solid #333333; border-radius: 5px; margin-left:60px; margin-top:3px">
                                         <option value="">Seleccione Edad</option>
                                         @for (int i = 1; i <= 100; i++)
                                         {
                                             <option value="@i">@i</option>
                                         }
                                     </select>
-                                    @Html.ValidationMessageFor(model => model.EdadActual)
+                                    <span asp-validation-for="@Model.EdadActual" class="text-danger" style="margin-top:50px"></span>
+
                                 </div>
                             </div>
                         </div>
@@ -93,14 +94,14 @@
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <select type="text" id="edadMenstruacion" name="EdadPrimeraMenstruacion" value="@Model.EdadPrimeraMenstruacion" style="width: 140px; height: 30px; margin-top: 10px; border: 2px solid #333333; border-radius: 5px;margin-left:20px">
+                                    <select id="EdadPrimeraMenstruacion" asp-for="@Model.EdadPrimeraMenstruacion" class="form-control" style="width: 140px; height: 30px; margin-top: 10px; border: 2px solid #333333; border-radius: 5px;margin-left:60px">
                                         <option value="">Seleccione Edad</option>
                                         @for (int i = 1; i <= 100; i++)
                                         {
                                             <option value="@i">@i</option>
                                         }
                                     </select>
-                                    @Html.ValidationMessageFor(model => model.EdadPrimeraMenstruacion)
+                                    <span asp-validation-for="@Model.EdadPrimeraMenstruacion" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
@@ -118,3 +119,8 @@
         </form>
     </div>
 </div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -20,7 +20,6 @@ public partial class BdAppMerckContext : DbContext
 
     public virtual DbSet<Provincia> Provincia { get; set; }
     public virtual DbSet<Clinica> Clinicas { get; set; }
-    public IEnumerable<object> Clinica { get; internal set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
 

@@ -58,10 +58,11 @@
                 </div>
                 <div class="row" style="margin-left: 80px;">
                     <div class="col" style="margin-top: -13px">
-                        <select id="edadActual" name="edadActual" style="width: 160px; height: 30px; border: 2px solid #333333; border-radius: 5px;">
+                        <select id="pais" name="pais" asp-for="Pais" style="width: 160px; height: 30px; border: 2px solid #333333; border-radius: 5px;">
                             <option value="">Selecciona un Pais</option>
                             <option>Argentina</option>
                         </select>
+                        <span asp-validation-for="Pais" class="text-danger"></span>
                     </div>
                 </div>
             </div>
@@ -80,12 +81,14 @@
                 </div>
                 <div class="row" style="margin-left: 80px;">
                     <div class="col" style="margin-top: -13px">
-                        <select id="provincia" name="provincia" style="width: 160px; height: 30px; border: 2px solid #333333; border-radius: 5px;">
+                        <select id="provincia" name="provincia" style="width: 160px; height: 30px; border: 2px solid #333333; border-radius: 5px;" onchange="capturarProvinciaSeleccionada(this)" asp-for="Provincia">
+                            <option value="">Selecionar Provincia</option>
                             @foreach (var provincia in Model.Provincias)
                             {
                                 <option value="@provincia.Value">@provincia.Text</option>
                             }
                         </select>
+                        <span asp-validation-for="Provincia" class="text-danger"></span>
 
                     </div>
                 </div>
@@ -107,6 +110,10 @@
                     <div class="col" style="margin-top: -13px">
                         <select id="localidad" name="localidad" style="width: 160px; height: 30px; border: 2px solid #333333; border-radius: 5px;">
                             <option value="">Selecionar Localidad</option>
+                            @foreach (var localidad in Model.Localidades)
+                            {
+                                <option value="@localidad.Value">@localidad.Text</option>
+                            }
                         </select>
                     </div>
                 </div>
@@ -158,50 +165,25 @@
             </div>
         </div>
     </div>
-    <div class="container mt-3" style="border-bottom: 2px solid #CCCCCC; padding-bottom: 10px; margin-bottom: 10px; width: 80%;padding-left:45px">
-        <div class="row">
-            <div class="col-1">
-                <img src="~/imagenes/FotoUbicacion.png" style="width: 80px; height: 80px;" />
-            </div>
-            <div class="col-11">
-                <div class="row">
-                    <div class="col" style="margin-top: 5px">
-                        <p style="color: #776793; text-align:center; font-size: 23px; font-weight: 500; margin-right:-20px">Clinicas</p>
-                    </div>
-                </div>
-                <div class="row" style="margin-left: 80px;">
-                    <div class="col" style="margin-top: -13px">
-                        <select id="clinicas" name="clinicas" style="width: 160px; height: 30px; border: 2px solid #333333; border-radius: 5px;"></select>
-                       
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </form>
-<div class="container mt-3" style="display: flex; flex-wrap: wrap; justify-content: center;margin-bottom:5px;">
-    <div style="margin-left:60px; flex: 1;">
-        <img style="width: 50%;" src="~/imagenes/FotoPlanta.png" />
-    </div>
-    <div style="margin: 5px; flex: 1;">
-        <img style="width: 50%;" src="~/imagenes/FotoPlanta.png" />
-    </div>
-    <div style="margin: 5px; flex: 1;">
-        <img style="width: 50%;" src="~/imagenes/FotoPlanta.png" />
-    </div>
-</div>
-<div class="container mt-2" style="display: flex; flex-wrap: wrap; justify-content: center;">
-    <div style="margin-left: 60px; flex: 1;">
-        <img style="width: 50%;" src="~/imagenes/FotoPlanta.png" />
-    </div>
-    <div style="margin: 5px; flex: 1;">
+<div class="container mt-4" style="margin-bottom:300px">
+    <div class="row" id="clinica" name="clinica">
+        @if (Model.ClinicasItems != null && Model.ClinicasItems.Any())
+        {
+            @foreach (var clinica in Model.ClinicasItems)
+            {
 
-        <img style="width: 50%;" src="~/imagenes/FotoPlanta.png" />
-    </div>
-    <div style="margin: 5px; flex: 1;">
-        <img style="width: 50%;" src="~/imagenes/FotoPlanta.png" />
+                <div style="margin-left:60px; flex: 1;">
+                    <img style="width: 50%;" src="~/imagenes/FotoPlanta.png" />
+                </div>
+                <p class="clinica-nombre custom-nombre">@clinica.Text</p>
+
+            }
+        }
     </div>
 </div>
+
+
 <div class="container mt-1">
     <div class="row">
         <div class="col-12">
@@ -210,33 +192,121 @@
     </div>
 </div>
 
+
 <script>
+    function capturarProvinciaSeleccionada(provinciaSelect) {
+        var provincia = provinciaSelect.value;
 
-    document.getElementById('provincia').addEventListener('change', function () {
-        var idProvincia = this.value;
+        // Guardar el valor actual de la localidad
+        var localidadDropdown = document.getElementById('localidad');
+        var localidadValue = localidadDropdown.value;
 
-        fetch('/Home/ObtenerLocalidades', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: 'idProvincia=' + idProvincia
-        })
-            .then(response => response.json())
-            .then(data => {
-                var localidadDropdown = document.getElementById('localidad');
-                localidadDropdown.innerHTML = "";
+        // Realizar llamada AJAX para obtener clínicas
+        var xhrClinicas = new XMLHttpRequest();
+        xhrClinicas.open('GET', '/Home/ObtenerClinicas?provincia=' + provincia, true);
+        xhrClinicas.onreadystatechange = function () {
+            if (xhrClinicas.readyState === 4 && xhrClinicas.status === 200) {
+                // Manejar la respuesta JSON
+                var clinicas = JSON.parse(xhrClinicas.responseText);
 
-                data.forEach(function (localidad) {
+                // Limpiar y actualizar el dropdown de clínicas
+                var clinicaDropdown = document.getElementById('clinica');
+                clinicaDropdown.innerHTML = '<p>Seleccionar Clínica</p5>';
+
+                // Agregar las nuevas opciones de clínica
+                clinicas.forEach(function (clinica) {
                     var option = document.createElement('option');
-                    option.value = localidad.Id;
-                    option.text = localidad.localidades;
+                    option.value = clinica.value;
+                    option.text = clinica.text;
+                    clinicaDropdown.appendChild(option);
+                });
+
+                // Restaurar el valor de la localidad
+                localidadDropdown.value = localidadValue;
+            }
+        };
+        xhrClinicas.send();
+
+        // Realizar llamada AJAX para obtener localidades
+        var xhrLocalidades = new XMLHttpRequest();
+        xhrLocalidades.open('GET', '/Home/ObtenerLocalidades?provincia=' + provincia, true);
+        xhrLocalidades.onreadystatechange = function () {
+            if (xhrLocalidades.readyState === 4 && xhrLocalidades.status === 200) {
+                // Manejar la respuesta JSON
+                var localidades = JSON.parse(xhrLocalidades.responseText);
+
+                // Limpiar y actualizar el dropdown de localidades
+                var localidadDropdown = document.getElementById('localidad');
+                localidadDropdown.innerHTML = '<option value="">Seleccionar Localidad</option>';
+
+                // Agregar las nuevas opciones de localidad
+                localidades.forEach(function (localidad) {
+                    var option = document.createElement('option');
+                    option.value = localidad.value;
+                    option.text = localidad.text;
                     localidadDropdown.appendChild(option);
                 });
-            })
-            .catch(error => console.error('Error:', error));
-    });
-
+            }
+        };
+        xhrLocalidades.send();
+    }
 </script>
 
-<script src="~/js/filtrarClinica.js"></script>
+@*
+<script>
+    function capturarProvinciaSeleccionada(provinciaSelect) {
+        var provincia = provinciaSelect.value;
+
+        // Realizar llamada AJAX para obtener clínicas
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/Home/ObtenerClinicas?provincia=' + provincia, true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Manejar la respuesta JSON
+                var clinicas = JSON.parse(xhr.responseText);
+
+                // Limpiar y actualizar el dropdown de localidades
+                var clinicaDropdown = document.getElementById('clinica');
+                clinicaDropdown.innerHTML = '<option value="">Seleccionar Clínica</option>';
+
+                // Agregar las nuevas opciones de localidad
+                clinicas.forEach(function (clinica) {
+                    var option = document.createElement('option');
+                    option.value = clinica.value;
+                    option.text = clinica.text;
+                    clinicaDropdown.appendChild(option);
+                });
+            }
+        };
+        xhr.send();
+    }
+
+</script> *@
+@* <script>
+    function capturarProvinciaSeleccionada(provinciaSelect) {
+        var provincia = provinciaSelect.value;
+
+        // Realizar llamada AJAX para obtener localidades
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/Home/ObtenerLocalidades?provincia=' + provincia, true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                // Manejar la respuesta JSON
+                var localidades = JSON.parse(xhr.responseText);
+
+                // Limpiar y actualizar el dropdown de localidades
+                var localidadDropdown = document.getElementById('localidad');
+                localidadDropdown.innerHTML = '<option value="">Seleccionar Localidad</option>';
+
+                // Agregar las nuevas opciones de localidad
+                localidades.forEach(function (localidad) {
+                    var option = document.createElement('option');
+                    option.value = localidad.value;
+                    option.text = localidad.text;
+                    localidadDropdown.appendChild(option);
+                });
+            }
+        };
+        xhr.send();
+    }
+</script> *@

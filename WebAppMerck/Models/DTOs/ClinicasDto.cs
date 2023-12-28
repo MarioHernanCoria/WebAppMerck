@@ -14,5 +14,6 @@ namespace WebAppMerck.Models.DTOs
         public double Longitud { get; set; }
         [Name("provincia")]
         public string Provincia { get; set; }
+        
     }
 }
