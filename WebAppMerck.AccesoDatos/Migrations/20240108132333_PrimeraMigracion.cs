@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WebAppMerck.AccesoDatos.Migrations
 {
     /// <inheritdoc />
-    public partial class identityMigracion : Migration
+    public partial class PrimeraMigracion : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -235,8 +235,8 @@ namespace WebAppMerck.AccesoDatos.Migrations
                 columns: new[] { "Id", "Clinica", "FechaYhora", "MotivoConsulta", "Url" },
                 values: new object[,]
                 {
-                    { 1, "CEGYR Medicina Reproductiva", new DateTime(2024, 1, 8, 6, 47, 12, 997, DateTimeKind.Local).AddTicks(5147), "Edad y Reserva Ovarica", "https://ejemplo.com/" },
-                    { 2, "Centro de Investigaciones en Medicina Reproductiva", new DateTime(2024, 1, 8, 6, 47, 12, 997, DateTimeKind.Local).AddTicks(5202), "Evaluación de Reserva Ovárica", "https://ejemplo2.com/" }
+                    { 1, "CEGYR Medicina Reproductiva", new DateTime(2024, 1, 8, 10, 23, 33, 370, DateTimeKind.Local).AddTicks(2304), "Edad y Reserva Ovarica", "https://ejemplo.com/" },
+                    { 2, "Centro de Investigaciones en Medicina Reproductiva", new DateTime(2024, 1, 8, 10, 23, 33, 370, DateTimeKind.Local).AddTicks(2363), "Evaluación de Reserva Ovárica", "https://ejemplo2.com/" }
                 });
 
             migrationBuilder.InsertData(

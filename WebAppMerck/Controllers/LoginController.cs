@@ -11,14 +11,14 @@ using WebAppMerck.Modelos.Models.ViewModel;
 
 namespace WebAppMerck.Controllers
 {
-    [AllowAnonymous]
+
     public class LoginController : Controller
     {
         private readonly AppDbContext _context;
-        private readonly SignInManager<Usuario> _signInManager;
-        private readonly UserManager<Usuario> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public LoginController(AppDbContext context, SignInManager<Usuario> signInManager, UserManager<Usuario> userManager)
+        public LoginController(AppDbContext context, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
         {
             _context = context;
             _signInManager = signInManager;
@@ -30,22 +30,20 @@ namespace WebAppMerck.Controllers
             return View();
         }
 
-
-
         [HttpPost]
-        public async Task<IActionResult> Ingresar(LoginDto model)
+
+        public async Task<IActionResult> Ingresar(AccesoViewModel accViewModel)
         {
-            var usuario = await _context.Usuarios
-                .SingleOrDefaultAsync(u => u.Email == model.Email && u.Clave == model.Clave);
-
-
-            if (usuario != null)
+            if (ModelState.IsValid)
             {
-                return RedirectToAction("PantallaPrincipal", "Reporte");
-            }
+                var resultado = await _signInManager.PasswordSignInAsync(accViewModel.Email, accViewModel.Clave, accViewModel.Recordarme, lockoutOnFailure: false);
 
-            ViewBag.ErrorLogin = "Las credenciales son incorrectas";
-            return View("Login");
+                if (resultado.Succeeded)
+                {
+                    return RedirectToAction("PantallaPrincipal", "Reporte");
+                } 
+            }
+            return View("Login", accViewModel);
         }
 
         public IActionResult CerrarSesion()

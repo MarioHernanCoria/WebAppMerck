@@ -11,5 +11,7 @@ namespace WebAppMerck.Modelos.Models.ViewModel
         [Required(ErrorMessage = "El campo de contraseña es obligatorio.")]
         [DataType(DataType.Password)]
         public string Clave { get; set; }
+        public string Password { get; set; }
+        public bool RememberMe { get; set; }
     }
 }

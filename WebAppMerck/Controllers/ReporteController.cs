@@ -1,4 +1,5 @@
 ﻿using ClosedXML.Excel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Rotativa.AspNetCore;
@@ -10,6 +11,7 @@ using WebAppMerck.Modelos.Models.ViewModel;
 
 namespace WebAppMerck.Controllers
 {
+    [Authorize(Roles = "Administrador")]
     public class ReporteController : Controller
     {
         private readonly AppDbContext _context;

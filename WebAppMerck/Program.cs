@@ -1,5 +1,7 @@
 using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
+using Google;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using SendGrid;
 using WebAppMerck.AccesoDatos.DataAccess;
@@ -25,10 +27,14 @@ namespace WebAppMerck
 
             builder.Services.Configure<GoogleAnalyticsOptions>(builder.Configuration.GetSection("GoogleAnalytics"));
 
-            builder.Services.AddIdentity<Usuario, IdentityRole>()
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>()
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
 
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Administrador", policy => policy.RequireRole("Administrador"));
+            });
 
             builder.Services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
