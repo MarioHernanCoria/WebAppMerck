@@ -3,7 +3,7 @@ using CsvHelper.Configuration;
 using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.IO;
-using WebAppMerck.Models.DTOs;
+using WebAppMerck.AccesoDatos.DTOs;
 
 namespace WebAppMerck.Servicios
 {

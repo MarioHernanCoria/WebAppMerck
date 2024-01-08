@@ -1,8 +1,10 @@
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SendGrid;
-using System.Configuration;
-using WebAppMerck.DataAccess;
-using WebAppMerck.Models.Key;
+using WebAppMerck.AccesoDatos.DataAccess;
+using WebAppMerck.Modelos.Models.Entities;
+using WebAppMerck.Modelos.Models.Key;
 using WebAppMerck.Servicios;
 using WebAppMerck.Servicios.Interfaces;
 
@@ -23,8 +25,15 @@ namespace WebAppMerck
 
             builder.Services.Configure<GoogleAnalyticsOptions>(builder.Configuration.GetSection("GoogleAnalytics"));
 
-            builder.Services.AddDbContext<BdAppMerckContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("Hosted")));
+            builder.Services.AddIdentity<Usuario, IdentityRole>()
+            .AddEntityFrameworkStores<AppDbContext>()
+            .AddDefaultTokenProviders();
+
+
+            builder.Services.AddDbContext<AppDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
 
             builder.Services.AddScoped<ClinicasServicio>(provider =>
             {
@@ -56,11 +65,16 @@ namespace WebAppMerck
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Inicio}/{id?}");
+                pattern: "{controller=Login}/{action=Login}/{id?}");
+
+            IWebHostEnvironment env = app.Environment;
+            Rotativa.AspNetCore.RotativaConfiguration.Setup(env.WebRootPath, "../Rotativa/Windows");
 
             app.Run();
         }

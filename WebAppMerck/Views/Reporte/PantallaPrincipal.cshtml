@@ -1,0 +1,76 @@
+﻿
+<nav class="navbar" style="margin: 0; background-color:#2EBDCD;">
+    <div class="logo">
+        <a asp-area="" asp-controller="Home" asp-action="Inicio">
+            <img src="~/imagenes/FlechanNavBar.png" />
+        </a>
+    </div>
+    <ul class="nav-list" id="navList">
+        <li>
+            <a asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
+        </li>
+        <li>
+            <a asp-area="" asp-controller="Login" asp-action="CerrarSesion">Cerrar Sesion</a>
+        </li>
+    </ul>
+    <div class="burger" id="burger">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+    </div>
+</nav>
+<div style="background-color:#2EBDCD; padding-top:60px; margin-bottom:50px">
+    <div class="row justify-content-center">
+        <div class="col-1"></div>
+        <div class="col-7 offset-1 text-center align-self-center" style="color: white; font-size: 2em;margin-bottom:50px">Reporte</div>
+        <div class="col-2">
+        </div>
+
+        <div style="background-color:white; border-top-left-radius: 1000px; border-top-right-radius: 1000px; height: 50px">
+        </div>
+    </div>
+</div>
+<div class="d-flex justify-content-center align-items-center" style="margin-top: 30px">
+    <div class="d-flex">
+        <div style="margin-right: 10px; margin-left: 10px;">
+            <form id="exportForm">
+                <label for="fechaInicio">Fecha de Inicio:</label>
+                <input type="date" id="fechaInicio" name="fechaInicio" class="form-control" max="2024-12-31">
+
+                <label for="fechaFin">Fecha de Fin:</label>
+                <input type="date" id="fechaFin" name="fechaFin" class="form-control" max="2024-12-31">
+
+                <button type="button" onclick="exportar('excel')" class="btn btn-primary mt-3" style="border-radius: 35px; border: 2px solid white; background-color: #067785; color: #94d4de; font-size: 17px;">
+                    Exportar Excel
+                </button>
+
+                <button type="button" onclick="exportar('pdf')" class="btn btn-primary mt-3" style="border-radius: 35px; border: 2px solid white; background-color: #067785; color: #94d4de; font-size: 17px;">
+                    Exportar PDF
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="~/js/Navbar.js" asp-append-version="true"></script>
+
+
+
+
+<script>
+    function exportar(tipo) {
+        var form = document.getElementById('exportForm');
+        var action = tipo === 'excel' ? "@Url.Action("ExportarPersonasAExcel")" : "@Url.Action("ImprimirPdf")";
+        form.action = action;
+        form.submit();
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const burger = document.getElementById('burger');
+        const navList = document.getElementById('navList');
+
+        burger.addEventListener('click', function () {
+            navList.classList.toggle('show');
+        });
+    });
+
+</script>

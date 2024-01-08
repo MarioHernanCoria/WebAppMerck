@@ -1,4 +1,5 @@
-﻿@model WebAppMerck.Models.Entities.Formulario
+﻿@model Formulario
+@using WebAppMerck.Modelos.Models.ViewModel
 
 @{
     ViewData["Title"] = "Indicador";
@@ -9,7 +10,7 @@
             <img src="~/imagenes/FlechaNavBarRosa.png" />
         </a>
     </div>
-    <ul class="nav-list" id="navList">
+    <ul class="nav-list" id="navList" style="background-color:#EC3B96">
         <li>
             <a asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
         </li>
@@ -99,26 +100,3 @@
 });
 
 </script>
-
-
-
-@* <header style="background-color:#EC3B96">
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light mb-0" style="background-color:#EC3B96">
-        <div class="container-fluid" style="background-color:#EC3B96">
-                <img style="margin-left: 15px; margin-top:10px; background-color:#EC3B96" src="~/imagenes/FlechaNavBarRosa.png" />
-
-            <button style="border: none; padding: 0; background-color: #EC3B96; margin-top: 10px; margin-right: 10px" class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-</header> *@
-

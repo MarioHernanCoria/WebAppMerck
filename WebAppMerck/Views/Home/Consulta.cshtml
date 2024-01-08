@@ -1,4 +1,5 @@
-﻿@model WebAppMerck.Models.ViewModel.FormularioViewModel
+﻿@model FormularioViewModel
+@using WebAppMerck.Modelos.Models.ViewModel
 @{
     ViewData["Title"] = "Consulta";
 }
@@ -34,70 +35,3 @@
     });
 </script>
 <script src="~/js/map.js"></script>
-
-
-
-
-
-@* <div class="text-center">
-    <div class="container mt-5">
-        <h2>Consulta</h2>
-    </div>
-</div>
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-8">
-            <form method="post" asp-controller="Home" asp-action="EnviarConsulta">
-                <div class="form-group">
-                    <label for="Nombre">Nombre</label>
-                    <input type="text" class="form-control" id="Nombre" name="Nombre" placeholder="Nombre" value="@Model.Nombre">
-                    @Html.ValidationMessageFor(model => model.Nombre)
-                </div>
-                <div class="form-group">
-                    <label for="Apellido">Apellido</label>
-                    <input type="text" class="form-control" id="Apellido" name="Apellido" placeholder="Apellido" value="@Model.Apellido">
-                    @Html.ValidationMessageFor(model => model.Apellido)
-                </div>
-                <div class="form-group">
-                    <label for="Email">Email</label>
-                    <input type="email" class="form-control" id="Email" name="Email" placeholder="name@example.com" value="@Model.Email">
-                    @Html.ValidationMessageFor(model => model.Email)
-                </div>
-                <div class="form-group">
-                    <label for="Edad">Edad</label>
-                    <input type="number" class="form-control" id="Edad" name="Edad" placeholder="Edad" value="@Model.Edad">
-                    @Html.ValidationMessageFor(model => model.Edad)
-                </div>
-                <div class="form-group">
-                    <label for="Celular">Celular</label>
-                    <input type="tel" class="form-control" id="Celular" name="Celular" placeholder="Número de celular" value="@Model.Celular">
-                    @Html.ValidationMessageFor(model => model.Celular)
-                </div>
-                <div class="form-group">
-                    <label for="Clinicas">Selecciona la clínica</label>
-                    <select class="form-control" id="Clinicas" name="EmailClinica">
-                        <option value="">Elija la clinica a consultar</option>
-                        <option value="mariocoria022@gmail.com">CEGYR Medicina Reproductiva</option>
-                        <option value="mariocoria022@gmail.com">CER</option>
-                        <option value="mariocoria022@gmail.com">Centro de Investigaciones en Medicina Reproductiva</option>
-                        <option value="mariocoria022@gmail.com">Centro Gens</option>
-                        <option value="mariocoria022@gmail.com">Halitus Instituto Médico</option>
-                    </select>
-                    @Html.ValidationMessageFor(model => model.EmailClinica)
-                </div>
-                <div class="form-group">
-                    <label for="Consulta">Consulta</label>
-                    <textarea class="form-control" id="Consulta" name="Consulta" rows="3">@Model.Consulta</textarea>
-                    @Html.ValidationMessageFor(model => model.Consulta)
-                </div>
-                <div>
-                    <div class="row mt-3">
-                        <div class="col-md-6 offset-md-3 text-center">
-                            <a type="submit" id="btnEnviarConsulta" class="btn btn-primary">Enviar Consulta</a>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div> *@
